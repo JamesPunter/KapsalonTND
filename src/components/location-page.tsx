@@ -1,15 +1,8 @@
-import { Fragment } from "react";
 import { ArrowUpRight, MapPin, MessageCircleMore, Phone } from "lucide-react";
 
 import type { LocationData } from "@/data/site-content";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-} from "@/components/ui/table";
 
 type LocationPageProps = {
   location: LocationData;
@@ -90,49 +83,45 @@ export function LocationPage({ location }: LocationPageProps) {
 
       <section className="mx-auto flex w-full max-w-5xl flex-col gap-6">
         <div className="space-y-2 text-center">
-
           <h2 className="font-display text-4xl tracking-[0.08em] text-stone-950 uppercase sm:text-5xl">
             Prijslijst
           </h2>
         </div>
 
-        <div className="border border-stone-950/10 bg-white">
-          <Table>
+        <div className="grid gap-4 sm:gap-5 lg:grid-cols-2">
+          {location.priceSections.map((section) => (
+            <article
+              key={section.title}
+              className="overflow-hidden border border-stone-950/10 bg-white"
+            >
+              <div className="border-b border-stone-950/10 bg-[linear-gradient(180deg,rgba(251,191,36,0.08),rgba(255,255,255,0))] px-4 py-4 sm:px-5">
+                <p className="font-display text-2xl tracking-[0.08em] text-stone-950 uppercase">
+                  {section.title}
+                </p>
+                {section.description ? (
+                  <p className="mt-1 max-w-md text-sm leading-5 text-stone-600">
+                    {section.description}
+                  </p>
+                ) : null}
+              </div>
 
-            <TableBody>
-              {location.priceSections.map((section) => (
-                <Fragment key={section.title}>
-                  <TableRow className="border-stone-950/10 bg-stone-950/5 hover:bg-stone-950/5">
-                    <TableCell className="px-4 py-4" colSpan={2}>
-                      <div className="space-y-1">
-                        <p className="font-display text-2xl tracking-[0.08em] text-stone-950 uppercase">
-                          {section.title}
-                        </p>
-                        {section.description ? (
-                          <p className="max-w-3xl text-sm leading-6 text-stone-600">
-                            {section.description}
-                          </p>
-                        ) : null}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                  {section.items.map((item) => (
-                    <TableRow
-                      key={`${section.title}-${item.service}`}
-                      className="border-stone-950/10"
-                    >
-                      <TableCell className="whitespace-normal px-4 py-4 text-sm font-medium text-stone-900 sm:text-base">
-                        {item.service}
-                      </TableCell>
-                      <TableCell className="px-4 py-4 text-right text-sm font-semibold text-stone-700 sm:text-base">
-                        {item.price}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </Fragment>
-              ))}
-            </TableBody>
-          </Table>
+              <div className="divide-y divide-stone-950/8">
+                {section.items.map((item) => (
+                  <div
+                    key={`${section.title}-${item.service}`}
+                    className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-3 px-4 py-3 sm:px-5"
+                  >
+                    <p className="pr-2 text-sm leading-5 font-medium text-stone-900 sm:text-[0.95rem]">
+                      {item.service}
+                    </p>
+                    <p className=" border border-stone-950/10 bg-stone-950/4 px-2.5 py-1 text-right text-[0.7rem] font-semibold tracking-[0.14em] text-stone-700 uppercase sm:text-xs">
+                      {item.price}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </article>
+          ))}
         </div>
 
         <p className="text-sm leading-6 text-stone-600">{location.note}</p>
