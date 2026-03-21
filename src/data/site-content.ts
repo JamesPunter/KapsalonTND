@@ -1,5 +1,7 @@
 import { MessageCircleMore } from "lucide-react";
 
+import { assetPath } from "@/lib/asset-path";
+
 export type PriceItem = {
   service: string;
   price: string;
@@ -39,19 +41,19 @@ export const navigationItems = [
 
 export const homeGallery = [
   {
-    src: "/images/home/hero-banner.jpeg",
+    src: assetPath("images/home/hero-banner.jpeg"),
     alt: "Kapsalon TND banner with salon branding and models.",
   },
   {
-    src: "/images/home/style-1.jpeg",
+    src: assetPath("images/home/style-1.jpeg"),
     alt: "Close-up salon hairstyle result at Kapsalon TND.",
   },
   {
-    src: "/images/home/style-2.jpeg",
+    src: assetPath("images/home/style-2.jpeg"),
     alt: "Hair styling result photographed inside the salon.",
   },
   {
-    src: "/images/home/style-3.jpeg",
+    src: assetPath("images/home/style-3.jpeg"),
     alt: "Styled hair example from Kapsalon TND.",
   },
 ];
@@ -69,22 +71,22 @@ export const locations: LocationData[] = [
     whatsappHref: "https://wa.me/31622288480",
     mapHref:
       "https://www.google.com/maps/search/?api=1&query=Molukkenstraat+35H,+1095+AT+Amsterdam",
-    heroImage: "/images/amsterdam/storefront.jpeg",
+    heroImage: assetPath("images/amsterdam/storefront.jpeg"),
     gallery: [
       {
-        src: "/images/amsterdam/storefront.jpeg",
+        src: assetPath("images/amsterdam/storefront.jpeg"),
         alt: "Storefront of Kapsalon TND Amsterdam.",
       },
       {
-        src: "/images/amsterdam/interior-1.jpeg",
+        src: assetPath("images/amsterdam/interior-1.jpeg"),
         alt: "Interior photo of the Amsterdam salon.",
       },
       {
-        src: "/images/amsterdam/interior-2.jpg",
+        src: assetPath("images/amsterdam/interior-2.jpg"),
         alt: "Salon stations inside the Amsterdam location.",
       },
       {
-        src: "/images/amsterdam/interior-3.jpeg",
+        src: assetPath("images/amsterdam/interior-3.jpeg"),
         alt: "Additional Amsterdam interior photo.",
       },
     ],
@@ -163,22 +165,22 @@ export const locations: LocationData[] = [
     whatsappHref: "https://wa.me/31645000009",
     mapHref:
       "https://www.google.com/maps/search/?api=1&query=Westzijde+54,+1506+EG+Zaandam",
-    heroImage: "/images/zaandam/storefront.jpeg",
+    heroImage: assetPath("images/zaandam/storefront.jpeg"),
     gallery: [
       {
-        src: "/images/zaandam/storefront.jpeg",
+        src: assetPath("images/zaandam/storefront.jpeg"),
         alt: "Storefront of Kapsalon TND Zaandam.",
       },
       {
-        src: "/images/zaandam/interior-1.jpeg",
+        src: assetPath("images/zaandam/interior-1.jpeg"),
         alt: "Interior of the Zaandam salon.",
       },
       {
-        src: "/images/zaandam/interior-2.jpeg",
+        src: assetPath("images/zaandam/interior-2.jpeg"),
         alt: "Treatment space inside the Zaandam location.",
       },
       {
-        src: "/images/zaandam/interior-3.jpeg",
+        src: assetPath("images/zaandam/interior-3.jpeg"),
         alt: "Beauty and treatment area at Kapsalon TND Zaandam.",
       },
     ],

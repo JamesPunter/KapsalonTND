@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 
 import { homeGallery, locations } from "@/data/site-content";
 import { cn } from "@/lib/utils";
+import { assetPath } from "@/lib/asset-path";
 import { buttonVariants } from "@/components/ui/button";
 
 export function HomePage() {
-  const heroImage = "/images/home/client-doing-hair-cut-barber-shop-salon.jpg";
+  const heroImage = assetPath("images/home/client-doing-hair-cut-barber-shop-salon.jpg");
   const galleryImagePositions = [
     "object-[center_22%]",
     "object-[center_85%]",
@@ -26,7 +27,7 @@ export function HomePage() {
             <img
               alt="Kapsalon TND logo"
               className="h-16 w-16 object-cover sm:h-20 sm:w-20"
-              src="/images/brand/tnd.jpg"
+              src={assetPath("images/brand/tnd.jpg")}
             />
           </span>
           <div className="min-w-0 space-y-2">

@@ -7,6 +7,7 @@ import {
   locationsBySlug,
   navigationItems,
 } from "@/data/site-content";
+import { assetPath } from "@/lib/asset-path";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import {
@@ -248,7 +249,7 @@ function BrandLockup() {
         <img
           alt="Kapsalon TND logo"
           className="motion-media h-full w-full object-cover"
-          src="/images/brand/tnd.jpg"
+          src={assetPath("images/brand/tnd.jpg")}
         />
       </span>
       <div className="min-w-0">
