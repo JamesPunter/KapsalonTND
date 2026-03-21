@@ -165,3 +165,116 @@ img {
 ::selection {
   background: rgb(251 191 36 / 0.28);
 }
+
+@keyframes soft-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes soft-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hero-drift {
+  from {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.07) translate3d(0, -1.5%, 0);
+  }
+}
+
+.motion-enter {
+  opacity: 0;
+  animation: soft-fade-up 760ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--motion-delay, 0ms);
+}
+
+.motion-fade {
+  opacity: 0;
+  animation: soft-fade 900ms ease forwards;
+  animation-delay: var(--motion-delay, 0ms);
+}
+
+.motion-delay-1 {
+  --motion-delay: 80ms;
+}
+
+.motion-delay-2 {
+  --motion-delay: 160ms;
+}
+
+.motion-delay-3 {
+  --motion-delay: 240ms;
+}
+
+.motion-delay-4 {
+  --motion-delay: 320ms;
+}
+
+.motion-delay-5 {
+  --motion-delay: 400ms;
+}
+
+.motion-lift {
+  transition:
+    transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 360ms ease,
+    border-color 280ms ease,
+    background-color 280ms ease,
+    color 280ms ease;
+  will-change: transform;
+}
+
+.motion-lift:hover {
+  transform: translate3d(0, -4px, 0);
+  box-shadow: 0 20px 38px -28px rgb(28 25 23 / 0.55);
+}
+
+.motion-media {
+  transition:
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 900ms ease;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.group:hover .motion-media,
+.motion-lift:hover .motion-media {
+  transform: scale(1.045);
+}
+
+.motion-pan {
+  animation: hero-drift 16s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .motion-enter,
+  .motion-fade {
+    opacity: 1;
+  }
+}

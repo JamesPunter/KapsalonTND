@@ -30,11 +30,18 @@ export function LocationPage({ location }: LocationPageProps) {
   const remainingGallery = location.gallery.filter(
     (image) => image.src !== location.heroImage,
   );
+  const delayClasses = [
+    "motion-delay-1",
+    "motion-delay-2",
+    "motion-delay-3",
+    "motion-delay-4",
+    "motion-delay-5",
+  ];
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-12 px-4 py-8 pb-28 sm:px-6 sm:py-10 sm:pb-32 lg:px-8 lg:pb-40">
       <section className="space-y-5 text-center">
-        <div className="space-y-3">
+        <div className="motion-enter space-y-3">
           <h1 className="font-display text-4xl leading-[0.95] tracking-[0.08em] text-stone-950 uppercase sm:text-5xl">
             {location.name}
           </h1>
@@ -43,19 +50,19 @@ export function LocationPage({ location }: LocationPageProps) {
           </p>
         </div>
 
-        <div className="mx-auto max-w-5xl border border-stone-950/10 bg-white">
-          <div className="relative overflow-hidden">
+        <div className="motion-enter motion-delay-1 mx-auto max-w-5xl border border-stone-950/10 bg-white">
+          <div className="group relative overflow-hidden">
             <img
               alt={`${location.name} storefront`}
               className={cn(
-                "h-[24rem] w-full object-cover sm:h-[32rem] lg:h-[38rem]",
+                "motion-media motion-pan h-[24rem] w-full object-cover sm:h-[32rem] lg:h-[38rem]",
                 heroImagePositions[location.slug],
               )}
               src={location.heroImage}
             />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,17,17,0.08),rgba(17,17,17,0.42))]" />
             <div className="absolute inset-x-4 bottom-4 flex justify-start sm:inset-x-6 sm:bottom-6 lg:inset-x-8 lg:bottom-8">
-              <div className="border border-white/15 bg-stone-950/78 px-5 py-4 text-left text-white backdrop-blur-sm sm:px-6 sm:py-5">
+              <div className="motion-enter motion-delay-3 border border-white/15 bg-stone-950/78 px-5 py-4 text-left text-white backdrop-blur-sm sm:px-6 sm:py-5">
                 <p className="text-xs tracking-[0.24em] text-stone-200 uppercase">
                   Adres
                 </p>
@@ -82,17 +89,20 @@ export function LocationPage({ location }: LocationPageProps) {
       </section>
 
       <section className="mx-auto flex w-full max-w-5xl flex-col gap-6">
-        <div className="space-y-2 text-center">
+        <div className="motion-enter space-y-2 text-center">
           <h2 className="font-display text-4xl tracking-[0.08em] text-stone-950 uppercase sm:text-5xl">
             Prijslijst
           </h2>
         </div>
 
         <div className="grid gap-4 sm:gap-5 lg:grid-cols-2">
-          {location.priceSections.map((section) => (
+          {location.priceSections.map((section, index) => (
             <article
               key={section.title}
-              className="overflow-hidden border border-stone-950/10 bg-white"
+              className={cn(
+                "motion-enter motion-lift overflow-hidden border border-stone-950/10 bg-white",
+                delayClasses[index] ?? "motion-delay-1",
+              )}
             >
               <div className="border-b border-stone-950/10 bg-[linear-gradient(180deg,rgba(251,191,36,0.08),rgba(255,255,255,0))] px-4 py-4 sm:px-5">
                 <p className="font-display text-2xl tracking-[0.08em] text-stone-950 uppercase">
@@ -124,13 +134,15 @@ export function LocationPage({ location }: LocationPageProps) {
           ))}
         </div>
 
-        <p className="text-sm leading-6 text-stone-600">{location.note}</p>
+        <p className="motion-enter motion-delay-2 text-sm leading-6 text-stone-600">
+          {location.note}
+        </p>
 
         <div className="grid gap-3 sm:grid-cols-2">
           <a
             className={cn(
               buttonVariants({ size: "lg" }),
-              "h-14 justify-center border border-stone-950 bg-stone-950 px-6 text-base text-stone-50 hover:bg-stone-800",
+              "motion-enter motion-delay-3 motion-lift h-14 justify-center border border-stone-950 bg-stone-950 px-6 text-base text-stone-50 hover:bg-stone-800",
             )}
             href={location.phoneHref}
           >
@@ -140,7 +152,7 @@ export function LocationPage({ location }: LocationPageProps) {
           <a
             className={cn(
               buttonVariants({ size: "lg" }),
-              "h-14 justify-center border border-stone-950 bg-stone-950 px-6 text-base text-stone-50 hover:bg-stone-800",
+              "motion-enter motion-delay-4 motion-lift h-14 justify-center border border-stone-950 bg-stone-950 px-6 text-base text-stone-50 hover:bg-stone-800",
             )}
             href={location.whatsappHref}
             rel="noreferrer"
@@ -157,12 +169,15 @@ export function LocationPage({ location }: LocationPageProps) {
           {remainingGallery.map((image, index) => (
             <div
               key={image.src}
-              className="overflow-hidden border border-stone-950/10 bg-white"
+              className={cn(
+                "group motion-enter motion-lift overflow-hidden border border-stone-950/10 bg-white",
+                delayClasses[index] ?? "motion-delay-1",
+              )}
             >
               <img
                 alt={image.alt}
                 className={cn(
-                  "h-72 w-full object-cover sm:h-80",
+                  "motion-media h-72 w-full object-cover sm:h-80",
                   galleryImagePositions[location.slug][index],
                 )}
                 src={image.src}

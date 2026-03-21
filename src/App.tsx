@@ -7,7 +7,7 @@ import { locationsBySlug } from "@/data/site-content";
 
 export function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route element={<SiteShell />}>
           <Route index element={<HomePage />} />
