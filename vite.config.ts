@@ -4,8 +4,8 @@ import react from "@vitejs/plugin-react-swc";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig(({ command }) => ({
-  // GitHub Pages project sites are served from /<repo-name>/
-  base: command === "build" ? "/KapsalonTND/" : "/",
+  // Default to root path (Netlify). Override for project-subpath deploys (e.g. GitHub Pages).
+  base: command === "build" ? process.env.VITE_BASE_PATH ?? "/" : "/",
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
