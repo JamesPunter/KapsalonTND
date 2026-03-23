@@ -259,6 +259,68 @@ img {
   animation: hero-drift 16s ease-in-out infinite alternate;
 }
 
+/* Gallery golden hover overlay */
+.gallery-item {
+  position: relative;
+  border-radius: 0.75rem;
+}
+
+.gallery-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgba(251, 191, 36, 0) 40%,
+    rgba(251, 191, 36, 0.18) 100%
+  );
+  opacity: 0;
+  transition: opacity 480ms ease;
+  pointer-events: none;
+}
+
+.gallery-item:hover::after {
+  opacity: 1;
+}
+
+/* CTA icon hover animation */
+@keyframes icon-nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+}
+
+.cta-btn:hover svg {
+  animation: icon-nudge 400ms ease;
+}
+
+/* Nav active underline */
+.nav-link-active {
+  position: relative;
+}
+
+.nav-link-active::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 25%;
+  right: 25%;
+  height: 2px;
+  border-radius: 1px;
+  background: rgba(251, 191, 36, 0.6);
+}
+
+/* Full-screen hero */
+.hero-full {
+  min-height: 100dvh;
+  min-height: 100vh;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

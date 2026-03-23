@@ -3,7 +3,6 @@ import { Menu, MessageCircleMore, Phone } from "lucide-react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 
 import {
-  footerSocialLinks,
   locationsBySlug,
   navigationItems,
 } from "@/data/site-content";
@@ -64,7 +63,7 @@ export function SiteShell() {
         isHomePage={isHomePage}
         isVisible={showHomeHeader}
       />
-      <main className="pb-14">
+      <main>
         <Outlet />
       </main>
       <SiteFooter />
@@ -91,7 +90,7 @@ function SiteHeader({ isHomePage, isVisible }: SiteHeaderProps) {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <BrandLockup />
 
-        <nav className="hidden items-center gap-2 md:flex">
+        <nav className="hidden items-center gap-1.5 md:flex">
           {navigationItems.map((item) => (
             <NavLink
               key={item.href}
@@ -99,7 +98,7 @@ function SiteHeader({ isHomePage, isVisible }: SiteHeaderProps) {
                 cn(
                   linkBaseClasses,
                   isActive
-                    ? "bg-stone-950 text-stone-50 shadow-sm"
+                    ? "nav-link-active bg-stone-950 text-stone-50 shadow-sm"
                     : "text-stone-700 hover:bg-stone-950/5 hover:text-stone-950",
                 )
               }
@@ -182,59 +181,55 @@ function SiteHeader({ isHomePage, isVisible }: SiteHeaderProps) {
 
 function SiteFooter() {
   return (
-    <footer className="border-t border-stone-950/10 bg-stone-950 text-stone-100">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.2fr_0.8fr_0.8fr] lg:px-8">
-        <div className="motion-enter space-y-4">
+    <footer className="relative border-t border-stone-950/10 bg-stone-950 text-stone-100">
+      {/* Gradient transition from page to footer */}
+      <div className="absolute -top-16 inset-x-0 h-16 bg-gradient-to-b from-transparent to-stone-950/8 pointer-events-none" />
 
+      <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1.2fr_0.8fr_0.8fr] lg:px-8">
+        <div className="motion-enter space-y-5">
           <div>
-            <h2 className="font-display text-4xl leading-none tracking-[0.08em] uppercase">
+            <h2 className="font-display text-4xl leading-none tracking-[0.08em] uppercase lg:text-5xl">
               Kapsalon TND
             </h2>
-
+            <p className="mt-3 max-w-xs text-sm leading-6 text-stone-400">
+              Uw kapper in Amsterdam en Zaandam.
+            </p>
           </div>
         </div>
 
-        <div className="motion-enter motion-delay-1 space-y-4">
+        <div className="motion-enter motion-delay-1 space-y-5">
           <h3 className="text-sm font-semibold tracking-[0.2em] text-stone-100 uppercase">
             Locaties
           </h3>
-          <div className="grid gap-2">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.href}
-                className="motion-lift text-sm text-stone-300 transition-colors hover:text-white"
-                to={item.href}
-              >
-                {item.label}
-              </Link>
-            ))}
+          <div className="grid gap-3">
+            <Link
+              className="motion-lift text-base text-stone-300 transition-colors hover:text-white"
+              to="/amsterdam"
+            >
+              Amsterdam
+            </Link>
+            <Link
+              className="motion-lift text-base text-stone-300 transition-colors hover:text-white"
+              to="/zaandam"
+            >
+              Zaandam
+            </Link>
           </div>
         </div>
 
-        <div className="motion-enter motion-delay-2 space-y-4">
+        <div className="motion-enter motion-delay-2 space-y-5">
           <h3 className="text-sm font-semibold tracking-[0.2em] text-stone-100 uppercase">
             Contact
           </h3>
-          <div className="flex flex-wrap gap-2">
-            {footerSocialLinks.map((link) => {
-              const Icon = link.icon;
-
-              return (
-                <a
-                  key={link.label}
-                  className={cn(
-                    buttonVariants({ variant: "secondary", size: "lg" }),
-                    "motion-lift rounded-full border border-white/10 bg-white/8 px-4 text-stone-100 hover:bg-white/14",
-                  )}
-                  href={link.href}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  <Icon className="size-4" />
-                  {link.label}
-                </a>
-              );
-            })}
+          <div className="grid gap-3 text-sm text-stone-300">
+            <div>
+              <p className="text-xs tracking-[0.14em] text-stone-500 uppercase">Amsterdam</p>
+              <p className="mt-1">{locationsBySlug.amsterdam.phoneDisplay}</p>
+            </div>
+            <div>
+              <p className="text-xs tracking-[0.14em] text-stone-500 uppercase">Zaandam</p>
+              <p className="mt-1">{locationsBySlug.zaandam.phoneDisplay}</p>
+            </div>
           </div>
         </div>
       </div>

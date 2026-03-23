@@ -39,18 +39,9 @@ export function LocationPage({ location }: LocationPageProps) {
   ];
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col gap-12 px-4 py-8 pb-28 sm:px-6 sm:py-10 sm:pb-32 lg:px-8 lg:pb-40">
-      <section className="space-y-5 text-center">
-        <div className="motion-enter space-y-3">
-          <h1 className="font-display text-4xl leading-[0.95] tracking-[0.08em] text-stone-950 uppercase sm:text-5xl">
-            {location.name}
-          </h1>
-          <p className="mx-auto max-w-2xl text-sm font-medium tracking-[0.04em] text-stone-600 sm:text-base">
-            {location.summary}
-          </p>
-        </div>
-
-        <div className="motion-enter motion-delay-1 mx-auto max-w-5xl border border-stone-950/10 bg-white">
+    <div className="mx-auto flex max-w-7xl flex-col gap-14 px-4 py-8 pb-28 sm:px-6 sm:py-10 sm:pb-32 lg:px-8 lg:pb-40">
+      <section>
+        <div className="motion-enter mx-auto max-w-5xl overflow-hidden rounded-xl shadow-lg">
           <div className="group relative overflow-hidden">
             <img
               alt={`${location.name} storefront`}
@@ -60,20 +51,17 @@ export function LocationPage({ location }: LocationPageProps) {
               )}
               src={location.heroImage}
             />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,17,17,0.08),rgba(17,17,17,0.42))]" />
-            <div className="absolute inset-x-4 bottom-4 flex justify-start sm:inset-x-6 sm:bottom-6 lg:inset-x-8 lg:bottom-8">
-              <div className="motion-enter motion-delay-3 border border-white/15 bg-stone-950/78 px-5 py-4 text-left text-white backdrop-blur-sm sm:px-6 sm:py-5">
-                <p className="text-xs tracking-[0.24em] text-stone-200 uppercase">
-                  Adres
-                </p>
-                <p className="mt-2 font-display text-3xl tracking-[0.08em] uppercase sm:text-4xl">
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_30%,rgba(12,10,9,0.7)_100%)]" />
+            <div className="absolute inset-x-0 bottom-0 px-5 pb-6 sm:px-8 sm:pb-8 lg:px-10 lg:pb-10">
+              <div className="motion-enter motion-delay-2">
+                <h1 className="font-display text-3xl tracking-[0.08em] text-white uppercase sm:text-4xl lg:text-5xl">
                   {location.name}
-                </p>
+                </h1>
                 <p className="mt-2 max-w-md text-sm leading-6 text-stone-200 sm:text-base">
                   {location.address}
                 </p>
                 <a
-                  className="mt-4 inline-flex items-center gap-2 text-sm text-white transition-colors hover:text-stone-200"
+                  className="mt-3 inline-flex items-center gap-2 text-sm text-white/80 transition-colors hover:text-white"
                   href={location.mapHref}
                   rel="noreferrer"
                   target="_blank"
@@ -88,43 +76,47 @@ export function LocationPage({ location }: LocationPageProps) {
         </div>
       </section>
 
-      <section className="mx-auto flex w-full max-w-5xl flex-col gap-6">
+      {/* Price list */}
+      <section className="mx-auto flex w-full max-w-5xl flex-col gap-8">
         <div className="motion-enter space-y-2 text-center">
           <h2 className="font-display text-4xl tracking-[0.08em] text-stone-950 uppercase sm:text-5xl">
             Prijslijst
           </h2>
         </div>
 
-        <div className="grid gap-4 sm:gap-5 lg:grid-cols-2">
+        <div className="grid gap-5 sm:gap-6 lg:grid-cols-2">
           {location.priceSections.map((section, index) => (
             <article
               key={section.title}
               className={cn(
-                "motion-enter motion-lift overflow-hidden border border-stone-950/10 bg-white",
+                "motion-enter motion-lift overflow-hidden rounded-xl border border-stone-300/60 bg-white shadow-sm",
                 delayClasses[index] ?? "motion-delay-1",
               )}
             >
-              <div className="border-b border-stone-950/10 bg-[linear-gradient(180deg,rgba(251,191,36,0.08),rgba(255,255,255,0))] px-4 py-4 sm:px-5">
-                <p className="font-display text-2xl tracking-[0.08em] text-stone-950 uppercase">
+              <div className="border-b border-stone-200/80 px-5 py-4 sm:px-6">
+                <p className="font-display text-2xl tracking-[0.08em] text-stone-800 uppercase">
                   {section.title}
                 </p>
                 {section.description ? (
-                  <p className="mt-1 max-w-md text-sm leading-5 text-stone-600">
+                  <p className="mt-1.5 max-w-md text-sm leading-5 text-stone-500">
                     {section.description}
                   </p>
                 ) : null}
               </div>
 
-              <div className="divide-y divide-stone-950/8">
-                {section.items.map((item) => (
+              <div>
+                {section.items.map((item, itemIndex) => (
                   <div
                     key={`${section.title}-${item.service}`}
-                    className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-3 px-4 py-3 sm:px-5"
+                    className={cn(
+                      "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 px-5 py-3 sm:px-6",
+                      itemIndex % 2 === 1 ? "bg-stone-50/70" : "",
+                    )}
                   >
-                    <p className="pr-2 text-sm leading-5 font-medium text-stone-900 sm:text-[0.95rem]">
+                    <p className="text-sm leading-5 font-medium text-stone-700 sm:text-[0.95rem]">
                       {item.service}
                     </p>
-                    <p className=" border border-stone-950/10 bg-stone-950/4 px-2.5 py-1 text-right text-[0.7rem] font-semibold tracking-[0.14em] text-stone-700 uppercase sm:text-xs">
+                    <p className="text-right text-sm font-semibold text-stone-900">
                       {item.price}
                     </p>
                   </div>
@@ -134,50 +126,52 @@ export function LocationPage({ location }: LocationPageProps) {
           ))}
         </div>
 
-        <p className="motion-enter motion-delay-2 text-sm leading-6 text-stone-600">
+        <p className="motion-enter motion-delay-2 text-sm leading-7 text-stone-600">
           {location.note}
         </p>
 
+        {/* CTA buttons — larger with golden hover accent */}
         <div className="grid gap-3 sm:grid-cols-2">
           <a
             className={cn(
               buttonVariants({ size: "lg" }),
-              "motion-enter motion-delay-3 motion-lift h-14 justify-center border border-stone-950 bg-stone-950 px-6 text-base text-stone-50 hover:bg-stone-800",
+              "cta-btn motion-enter motion-delay-3 motion-lift h-16 justify-center rounded-xl border border-stone-950 bg-stone-950 px-8 text-base text-stone-50 transition-all hover:bg-stone-800 hover:shadow-lg hover:shadow-amber-900/10 sm:text-lg",
             )}
             href={location.phoneHref}
           >
-            <Phone className="size-4" />
+            <Phone className="size-5" />
             {location.phoneDisplay}
           </a>
           <a
             className={cn(
               buttonVariants({ size: "lg" }),
-              "motion-enter motion-delay-4 motion-lift h-14 justify-center border border-stone-950 bg-stone-950 px-6 text-base text-stone-50 hover:bg-stone-800",
+              "cta-btn motion-enter motion-delay-4 motion-lift h-16 justify-center rounded-xl border-2 border-amber-700/20 bg-gradient-to-r from-amber-50 to-amber-100/60 px-8 text-base font-semibold text-stone-900 transition-all hover:from-amber-100 hover:to-amber-200/60 hover:shadow-lg hover:shadow-amber-900/10 sm:text-lg",
             )}
             href={location.whatsappHref}
             rel="noreferrer"
             target="_blank"
           >
-            <MessageCircleMore className="size-4" />
+            <MessageCircleMore className="size-5" />
             WhatsApp {location.name}
           </a>
         </div>
       </section>
 
+      {/* Gallery with golden overlay and rounded corners */}
       {remainingGallery.length > 0 ? (
         <section className="mx-auto grid w-full max-w-5xl gap-4 md:grid-cols-2 xl:grid-cols-3">
           {remainingGallery.map((image, index) => (
             <div
               key={image.src}
               className={cn(
-                "group motion-enter motion-lift overflow-hidden border border-stone-950/10 bg-white",
+                "gallery-item group motion-enter motion-lift overflow-hidden rounded-xl",
                 delayClasses[index] ?? "motion-delay-1",
               )}
             >
               <img
                 alt={image.alt}
                 className={cn(
-                  "motion-media h-72 w-full object-cover sm:h-80",
+                  "motion-media h-72 w-full rounded-xl object-cover sm:h-80",
                   galleryImagePositions[location.slug][index],
                 )}
                 src={image.src}
