@@ -83,7 +83,7 @@ export function HomePage() {
               <a
                 className={cn(
                   buttonVariants({ variant: "ghost", size: "lg" }),
-                  "cta-btn motion-lift rounded-full border border-white/20 bg-navy/90 px-5 py-2.5 text-stone-100 shadow-[0_4px_20px_rgb(0_8_15/0.45)] backdrop-blur-sm hover:bg-navy hover:text-white",
+                  "rounded-md border border-white/30 bg-white/5 px-4 py-2 text-sm font-normal text-white/90 backdrop-blur-[2px] hover:border-white/45 hover:bg-white/10 hover:text-white",
                 )}
                 href="https://www.instagram.com/kapsalon_tnd/"
                 rel="noreferrer"
@@ -93,14 +93,13 @@ export function HomePage() {
                 Vind ons op Instagram
               </a>
 
-              {/* Location buttons */}
-              <div className="flex flex-col gap-3 sm:flex-row">
+              {/* Location links */}
+              <div className="flex flex-col items-center gap-2 sm:flex-row sm:flex-wrap sm:justify-end sm:gap-x-8 sm:gap-y-1">
                 {locations.map((location, index) => (
                   <Link
                     key={location.slug}
                     className={cn(
-                      buttonVariants({ size: "lg" }),
-                      "motion-enter motion-lift cta-btn rounded-full border border-white/20 bg-navy px-7 py-2.5 text-base text-stone-100 shadow-[0_6px_24px_rgb(0_8_15/0.5)] backdrop-blur-sm hover:bg-[#001420] hover:text-white",
+                      "motion-enter py-2 text-center text-sm font-normal tracking-wide text-white/88 decoration-white/35 underline-offset-[0.35rem] transition-colors hover:text-white hover:underline",
                       index === 0
                         ? "motion-delay-3"
                         : index === 1
@@ -117,12 +116,6 @@ export function HomePage() {
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="motion-fade motion-delay-5 absolute bottom-4 left-1/2 -translate-x-1/2">
-          <div className="h-8 w-5 rounded-full border-2 border-white/30 p-0.5">
-            <div className="mx-auto h-2 w-1 animate-bounce rounded-full bg-white/50" />
-          </div>
-        </div>
       </section>
 
       {/* Gallery carousel */}
@@ -135,9 +128,9 @@ export function HomePage() {
             <Button
               aria-label="Vorige afbeelding"
               className={cn(
-                "size-9 rounded-full border-white/20 bg-navy text-stone-100 shadow-[0_4px_16px_rgb(0_8_15/0.35)] backdrop-blur-sm sm:size-10",
-                "transition-[color,background-color,box-shadow,border-color,opacity]",
-                "hover:bg-[#001420] hover:text-white",
+                "size-9 rounded-md border border-navy/15 bg-transparent text-navy sm:size-10",
+                "transition-[color,background-color,border-color]",
+                "hover:border-navy/30 hover:bg-navy/[0.06]",
                 "active:!translate-y-0",
               )}
               onClick={() => scrollGallery(-1)}
@@ -200,9 +193,9 @@ export function HomePage() {
             <Button
               aria-label="Volgende afbeelding"
               className={cn(
-                "size-9 rounded-full border-white/20 bg-navy text-stone-100 shadow-[0_4px_16px_rgb(0_8_15/0.35)] backdrop-blur-sm sm:size-10",
-                "transition-[color,background-color,box-shadow,border-color,opacity]",
-                "hover:bg-[#001420] hover:text-white",
+                "size-9 rounded-md border border-navy/15 bg-transparent text-navy sm:size-10",
+                "transition-[color,background-color,border-color]",
+                "hover:border-navy/30 hover:bg-navy/[0.06]",
                 "active:!translate-y-0",
               )}
               onClick={() => scrollGallery(1)}

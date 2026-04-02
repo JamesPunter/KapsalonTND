@@ -46,10 +46,9 @@ function LocationPriceBlocks({ location }: LocationPageProps) {
   const scrollOffsetClass = "scroll-mt-28";
 
   const contactCtaClass = cn(
-    "inline-flex min-h-11 items-center justify-center gap-2 rounded-none border border-navy bg-navy px-6 py-2.5 text-sm font-semibold text-stone-100 shadow-[0_2px_10px_rgb(0_8_15/0.22)] transition-[box-shadow,transform,background-color] duration-200",
-    "hover:-translate-y-px hover:bg-[#001018] hover:shadow-[0_4px_18px_rgb(0_8_15/0.32)]",
-    "active:translate-y-0 active:shadow-[0_2px_8px_rgb(0_8_15/0.2)]",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f8f3e8]",
+    "inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-navy bg-transparent px-5 py-2 text-sm font-normal text-navy transition-[background-color,border-color,color] duration-200",
+    "hover:bg-navy/[0.06] hover:border-navy",
+    "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-navy/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f8f3e8]",
   );
 
   const renderGender = (gender: "dames" | "heren", id: string, label: string) => (

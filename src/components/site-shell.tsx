@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Instagram, Menu, MessageCircleMore, Phone } from "lucide-react";
+import { Instagram, Menu } from "lucide-react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 
 import {
@@ -14,14 +14,21 @@ import { buttonVariants } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 
+/** Mobile sheet only: Home first, then West → Oost → Zaandam (desktop order stays in `navigationItems`). */
+const mobileSheetNavItems = [
+  { href: "/", label: "Home" },
+  { href: "/amsterdam-west", label: "Amsterdam - West" },
+  { href: "/amsterdam-oost", label: "Amsterdam - Oost" },
+  { href: "/zaandam", label: "Zaandam" },
+] as const;
+
 const linkBaseClasses =
-  "motion-lift rounded-full px-4 py-2 text-sm font-medium transition-colors";
+  "relative rounded-md px-3 py-1.5 text-sm font-normal tracking-wide transition-colors";
 
 export function SiteShell() {
   const location = useLocation();
@@ -103,8 +110,8 @@ function SiteHeader({ isHomePage, isVisible }: SiteHeaderProps) {
                 cn(
                   linkBaseClasses,
                   isActive
-                    ? "bg-amber-100/95 text-navy shadow-sm"
-                    : "text-stone-400 hover:bg-white/10 hover:text-stone-50",
+                    ? "text-stone-50 nav-link-active"
+                    : "text-stone-400 hover:text-stone-100",
                 )
               }
               end={item.href === "/"}
@@ -117,32 +124,38 @@ function SiteHeader({ isHomePage, isVisible }: SiteHeaderProps) {
         <Sheet>
           <SheetTrigger
             className={cn(
-              buttonVariants({ variant: "outline", size: "icon-lg" }),
-              "md:hidden border-white/25 bg-white/10 text-stone-100 hover:bg-white/15 hover:text-white",
+              buttonVariants({ variant: "ghost", size: "icon-lg" }),
+              "md:hidden rounded-md border border-white/20 text-stone-200 hover:bg-white/5 hover:text-white",
             )}
           >
             <Menu className="size-5" />
             <span className="sr-only">Open menu</span>
           </SheetTrigger>
           <SheetContent className="w-[88vw] max-w-sm border-l border-white/15 bg-navy text-stone-100 [&_button]:text-stone-300 [&_button:hover]:bg-white/10 [&_button:hover]:text-white">
-            <SheetHeader className="border-b border-white/10 pb-5">
-              <SheetTitle className="font-display text-3xl tracking-[0.08em] text-stone-50 uppercase">
-                Kapsalon TND
-              </SheetTitle>
-              <SheetDescription className="text-stone-400">
-                Home en drie locatiepagina&apos;s in een vernieuwde frontend.
-              </SheetDescription>
+            <SheetHeader className="border-b border-white/10 px-4 pb-6 pr-14 pt-2">
+              <SheetTitle className="sr-only">Kapsalon TND — navigatie</SheetTitle>
+              <img
+                alt="Kapsalon TND"
+                className="h-12 w-auto max-w-[min(12rem,72vw)] object-contain object-left drop-shadow-[0_2px_12px_rgb(0_0_0/0.35)]"
+                decoding="async"
+                height={LOGO_CLEAR_INTRINSIC.h}
+                src={assetPath("images/brand/TNDlogoClear.png")}
+                width={LOGO_CLEAR_INTRINSIC.w}
+              />
             </SheetHeader>
-            <div className="flex flex-col gap-2 px-4 pb-6">
-              {navigationItems.map((item) => (
+            <nav
+              aria-label="Hoofdnavigatie"
+              className="flex flex-col px-4 pb-8"
+            >
+              {mobileSheetNavItems.map((item) => (
                 <NavLink
                   key={item.href}
                   className={({ isActive }) =>
                     cn(
-                      "motion-lift rounded-2xl px-4 py-3 text-sm font-medium transition-colors",
+                      "border-b border-white/10 py-3.5 text-sm font-normal tracking-wide transition-colors last:border-b-0",
                       isActive
-                        ? "bg-amber-100/95 text-navy"
-                        : "bg-white/10 text-stone-200 ring-1 ring-white/15 hover:bg-white/15 hover:text-white",
+                        ? "text-amber-200"
+                        : "text-stone-400 hover:text-stone-100",
                     )
                   }
                   end={item.href === "/"}
@@ -151,42 +164,7 @@ function SiteHeader({ isHomePage, isVisible }: SiteHeaderProps) {
                   {item.label}
                 </NavLink>
               ))}
-
-              <div className="mt-4 grid gap-2">
-                <a
-                  className={cn(
-                    buttonVariants({ variant: "outline", size: "lg" }),
-                    "motion-lift justify-start rounded-2xl border-white/25 bg-white/10 text-stone-100 hover:bg-white/15",
-                  )}
-                  href={locationsBySlug["amsterdam-oost"].phoneHref}
-                >
-                  <Phone className="size-4" />
-                  Bel Amsterdam - Oost
-                </a>
-                <a
-                  className={cn(
-                    buttonVariants({ variant: "outline", size: "lg" }),
-                    "motion-lift justify-start rounded-2xl border-white/25 bg-white/10 text-stone-100 hover:bg-white/15",
-                  )}
-                  href={locationsBySlug["amsterdam-west"].phoneHref}
-                >
-                  <Phone className="size-4" />
-                  Bel Amsterdam - West
-                </a>
-                <a
-                  className={cn(
-                    buttonVariants({ size: "lg" }),
-                    "motion-lift justify-start rounded-2xl bg-amber-600 text-navy hover:bg-amber-500",
-                  )}
-                  href={locationsBySlug.zaandam.whatsappHref}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  <MessageCircleMore className="size-4" />
-                  WhatsApp Zaandam
-                </a>
-              </div>
-            </div>
+            </nav>
           </SheetContent>
         </Sheet>
       </div>
