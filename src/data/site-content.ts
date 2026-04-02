@@ -13,8 +13,14 @@ export type PriceSection = {
   items: PriceItem[];
 };
 
+/** Per-location prices split by gender. Edit `items` under `dames` / `heren` in `locations` below. */
+export type LocationPricesByGender = {
+  dames: PriceSection[];
+  heren: PriceSection[];
+};
+
 export type LocationData = {
-  slug: "amsterdam" | "zaandam";
+  slug: "amsterdam-oost" | "amsterdam-west" | "zaandam";
   name: string;
   headline: string;
   summary: string;
@@ -29,17 +35,24 @@ export type LocationData = {
     alt: string;
   }>;
   highlights: string[];
-  priceSections: PriceSection[];
-  note: string;
+  pricesByGender: LocationPricesByGender;
 };
 
 export const navigationItems = [
   { href: "/", label: "Home" },
-  { href: "/amsterdam", label: "Amsterdam" },
+  { href: "/amsterdam-oost", label: "Amsterdam - Oost" },
+  { href: "/amsterdam-west", label: "Amsterdam - West" },
   { href: "/zaandam", label: "Zaandam" },
 ];
 
-export const homeGallery = [
+export type HomeGalleryImage = {
+  src: string;
+  alt: string;
+  /** Tailwind object-position utilities; overrides default carousel cycling when set. */
+  objectPosition?: string;
+};
+
+export const homeGallery: HomeGalleryImage[] = [
   {
     src: assetPath("images/home/hero-banner.jpeg"),
     alt: "Kapsalon TND banner with salon branding and models.",
@@ -49,19 +62,168 @@ export const homeGallery = [
     alt: "Close-up salon hairstyle result at Kapsalon TND.",
   },
   {
+    src: assetPath("images/home/image1.jpeg"),
+    alt: "Spacious Kapsalon TND interior with barber stations and warm lighting.",
+  },
+  {
     src: assetPath("images/home/style-2.jpeg"),
     alt: "Hair styling result photographed inside the salon.",
   },
   {
+    src: assetPath("images/home/image2.jpeg"),
+    alt: "Salon interior view toward the entrance with modern lighting.",
+  },
+  {
     src: assetPath("images/home/style-3.jpeg"),
-    alt: "Styled hair example from Kapsalon TND.",
+    alt: "Team and client around a gold barber chair in the Kapsalon TND salon.",
+    objectPosition: "object-[center_38%]",
+  },
+  {
+    src: assetPath("images/home/image3.jpeg"),
+    alt: "Kapsalon TND workspace with styling stations and salon branding.",
+  },
+];
+
+/** Empty carousel cards after real images; reduce as you add entries to `homeGallery`. */
+export const homeGalleryCarouselPlaceholderCount = 0;
+
+/**
+ * Freepik attribution for the home page hero (`images/home/client-doing-hair-cut-barber-shop-salon.jpg`).
+ * Point `href` at the image or author URL from your Freepik download / license when available.
+ */
+export const homeHeroImageFreepikAttribution = {
+  href: "https://www.freepik.com",
+  title: "Freepik",
+  linkText: "Home hero image on Freepik",
+} as const;
+
+/** Zaandam + Amsterdam - Oost (Molukkenstraat); Amsterdam - West uses the same dames list. */
+const massagePriceItems: PriceItem[] = [
+  { service: "Relax Normal — 30 min / 1 uur", price: "€45 / €55" },
+  { service: "Medical Hard — 30 min / 1 uur", price: "€45 / €65" },
+  { service: "Speciaal Royal — 1 uur", price: "€85" },
+  { service: "Hoofdmassage", price: "€15" },
+];
+
+const pricesDamesAllLocations: PriceSection[] = [
+  {
+    title: "Haar & styling",
+    items: [
+      { service: "Dames knippen", price: "€30" },
+      { service: "Vlechten (dames & heren)", price: "v.a. €40" },
+      { service: "Föhnen (alle modellen)", price: "v.a. €30" },
+      { service: "Haarstyling & kapsels", price: "v.a. €50" },
+      { service: "Haarmasker", price: "€10" },
+      { service: "Proteïnebehandeling (1 jaar effect)", price: "v.a. €50" },
+      { service: "Haar verven", price: "Op aanvraag" },
+      { service: "Highlights / mèches", price: "Op aanvraag" },
+    ],
+  },
+  {
+    title: "Make-up",
+    items: [
+      { service: "Dag make-up", price: "v.a. €30" },
+      { service: "Avond / feest make-up", price: "v.a. €50" },
+    ],
+  },
+  {
+    title: "Wimpers & wenkbrauwen",
+    items: [
+      { service: "Wimperextensions", price: "v.a. €40" },
+      { service: "Lash lifting", price: "€30" },
+      { service: "Brow lifting", price: "€30" },
+      { service: "Wenkbrauwen", price: "€20" },
+    ],
+  },
+  {
+    title: "Nagels & pedicure",
+    items: [
+      { service: "Gelnagels & extensions", price: "v.a. €30" },
+      { service: "Pedicure met gel", price: "v.a. €30" },
+      {
+        service: "Complete voetverzorging (incl. scrub)",
+        price: "v.a. €40",
+      },
+    ],
+  },
+  {
+    title: "Gezichtsverzorging",
+    items: [
+      { service: "Gezicht reinigen (wax of draad)", price: "v.a. €30" },
+      {
+        service: "Dieptereiniging + masker + gezichtsmassage",
+        price: "€40",
+      },
+    ],
+  },
+  {
+    title: "Massage",
+    items: massagePriceItems,
+  },
+];
+
+/** Molukkenstraat + Zaandam — heren knippen €15 */
+const pricesHerenOostZaandam: PriceSection[] = [
+  {
+    title: "Haar & baard",
+    items: [
+      { service: "Knippen", price: "€15" },
+      { service: "Vlechten (dames & heren)", price: "v.a. €40" },
+      { service: "Baard", price: "€15" },
+      { service: "Haar wassen (hamam)", price: "€5" },
+      { service: "Wenkbrauwen", price: "€15" },
+      { service: "Wangen ontharen", price: "€15" },
+      { service: "Haar verven", price: "€25" },
+      { service: "Baard verven", price: "€15" },
+    ],
+  },
+  {
+    title: "Gezichtsverzorging",
+    items: [
+      { service: "Masker + scrub", price: "€30" },
+      { service: "Zwart masker", price: "€15" },
+      { service: "Scrub", price: "€15" },
+    ],
+  },
+  {
+    title: "Massage",
+    items: massagePriceItems,
+  },
+];
+
+/** Kinkerstraat — same as oost/zaandam except knippen €12 */
+const pricesHerenWest: PriceSection[] = [
+  {
+    title: "Haar & baard",
+    items: [
+      { service: "Knippen", price: "€12" },
+      { service: "Vlechten (dames & heren)", price: "v.a. €40" },
+      { service: "Baard", price: "€15" },
+      { service: "Haar wassen (hamam)", price: "€5" },
+      { service: "Wenkbrauwen", price: "€15" },
+      { service: "Wangen ontharen", price: "€15" },
+      { service: "Haar verven", price: "€25" },
+      { service: "Baard verven", price: "€15" },
+    ],
+  },
+  {
+    title: "Gezichtsverzorging",
+    items: [
+      { service: "Masker + scrub", price: "€30" },
+      { service: "Zwart masker", price: "€15" },
+      { service: "Scrub", price: "€15" },
+    ],
+  },
+  {
+    title: "Massage",
+    items: massagePriceItems,
   },
 ];
 
 export const locations: LocationData[] = [
   {
-    slug: "amsterdam",
-    name: "Amsterdam",
+    slug: "amsterdam-oost",
+    name: "Amsterdam - Oost",
     headline: "Molukkenstraat 35H, 1095 AT Amsterdam",
     summary:
       "Uw beschrijving hier",
@@ -71,23 +233,11 @@ export const locations: LocationData[] = [
     whatsappHref: "https://wa.me/31622288480",
     mapHref:
       "https://www.google.com/maps/search/?api=1&query=Molukkenstraat+35H,+1095+AT+Amsterdam",
-    heroImage: assetPath("images/amsterdam/storefront.jpeg"),
+    heroImage: assetPath("images/amsterdam-oost/oostinterior.jpeg"),
     gallery: [
       {
-        src: assetPath("images/amsterdam/storefront.jpeg"),
-        alt: "Storefront of Kapsalon TND Amsterdam.",
-      },
-      {
-        src: assetPath("images/amsterdam/interior-1.jpeg"),
-        alt: "Interior photo of the Amsterdam salon.",
-      },
-      {
-        src: assetPath("images/amsterdam/interior-2.jpg"),
-        alt: "Salon stations inside the Amsterdam location.",
-      },
-      {
-        src: assetPath("images/amsterdam/interior-3.jpeg"),
-        alt: "Additional Amsterdam interior photo.",
+        src: assetPath("images/amsterdam-oost/oostinterior.jpeg"),
+        alt: "Interieur van Kapsalon TND Amsterdam - Oost.",
       },
     ],
     highlights: [
@@ -95,63 +245,39 @@ export const locations: LocationData[] = [
       "Waxen, epileren en gezichtsverzorging",
       "Keratine, verven en styling",
     ],
-    priceSections: [
+    pricesByGender: {
+      dames: pricesDamesAllLocations,
+      heren: pricesHerenOostZaandam,
+    },
+  },
+  {
+    slug: "amsterdam-west",
+    name: "Amsterdam - West",
+    headline: "Kinkerstraat 294H, 1053 GC Amsterdam",
+    summary:
+      "Uw beschrijving hier",
+    address: "Kinkerstraat 294H, 1053 GC Amsterdam",
+    phoneDisplay: "+31 622288480",
+    phoneHref: "tel:+31622288480",
+    whatsappHref: "https://wa.me/31622288480",
+    mapHref:
+      "https://www.google.com/maps/search/?api=1&query=Kinkerstraat+294H,+1053+GC+Amsterdam",
+    heroImage: assetPath("images/amsterdam-west/westinterior.jpeg"),
+    gallery: [
       {
-        title: "Haarverzorging",
-        items: [
-          { service: "Normaal knippen", price: "EUR 10" },
-          { service: "Overloop", price: "EUR 15" },
-          { service: "Haren knippen (alleen met schaar)", price: "EUR 15" },
-          { service: "Haren knippen (vrouw)", price: "EUR 20" },
-          { service: "Baard / overloop / trimmen", price: "EUR 8" },
-          { service: "Contouren (nekharen)", price: "EUR 3" },
-          { service: "Contouren (snor)", price: "Gratis*" },
-        ],
-      },
-      {
-        title: "Waxen",
-        items: [
-          { service: "Hele gezicht", price: "EUR 10" },
-          { service: "Wangen", price: "EUR 7" },
-          { service: "Neus", price: "Gratis*" },
-          { service: "Oren", price: "Gratis*" },
-        ],
-      },
-      {
-        title: "Epileren",
-        items: [
-          { service: "Hele gezicht", price: "EUR 10" },
-          { service: "Wangen", price: "EUR 6" },
-          { service: "Wenkbrauwen", price: "EUR 6" },
-          { service: "Wenkbrauwen (scheermes)", price: "EUR 3" },
-          { service: "Baard scheren / trimmen", price: "Gratis*" },
-        ],
-      },
-      {
-        title: "Verven & styling",
-        items: [
-          { service: "Haarverf (man)", price: "EUR 15" },
-          { service: "Baard", price: "EUR 8" },
-          { service: "Wenkbrauwen", price: "EUR 6" },
-          { service: "Keratine", price: "vanaf EUR 50" },
-          { service: "Fohnen", price: "vanaf EUR 17" },
-          { service: "Haarverf (vrouw)", price: "vanaf EUR 25" },
-          { service: "Wassen haar", price: "EUR 3" },
-        ],
-      },
-      {
-        title: "Gezichtsbehandeling",
-        items: [
-          { service: "Masker en scrub", price: "EUR 15" },
-          { service: "Black masker", price: "EUR 6" },
-          { service: "Scrub", price: "EUR 6" },
-          { service: "Hoofdmassage", price: "EUR 5" },
-          { service: "Gezicht creme of tonic", price: "Gratis*" },
-        ],
+        src: assetPath("images/amsterdam-west/westinterior.jpeg"),
+        alt: "Interieur van Kapsalon TND Amsterdam - West.",
       },
     ],
-    note:
-      "* Gratis behandelingen gelden in combinatie met minimaal 1 betaalde behandeling uit het prijsoverzicht.",
+    highlights: [
+      "Knippen voor dames en heren",
+      "Waxen, epileren en gezichtsverzorging",
+      "Keratine, verven en styling",
+    ],
+    pricesByGender: {
+      dames: pricesDamesAllLocations,
+      heren: pricesHerenWest,
+    },
   },
   {
     slug: "zaandam",
@@ -165,23 +291,11 @@ export const locations: LocationData[] = [
     whatsappHref: "https://wa.me/31645000009",
     mapHref:
       "https://www.google.com/maps/search/?api=1&query=Westzijde+54,+1506+EG+Zaandam",
-    heroImage: assetPath("images/zaandam/storefront.jpeg"),
+    heroImage: assetPath("images/zaandam/zaandaminterior.jpeg"),
     gallery: [
       {
-        src: assetPath("images/zaandam/storefront.jpeg"),
-        alt: "Storefront of Kapsalon TND Zaandam.",
-      },
-      {
-        src: assetPath("images/zaandam/interior-1.jpeg"),
-        alt: "Interior of the Zaandam salon.",
-      },
-      {
-        src: assetPath("images/zaandam/interior-2.jpeg"),
-        alt: "Treatment space inside the Zaandam location.",
-      },
-      {
-        src: assetPath("images/zaandam/interior-3.jpeg"),
-        alt: "Beauty and treatment area at Kapsalon TND Zaandam.",
+        src: assetPath("images/zaandam/zaandaminterior.jpeg"),
+        alt: "Interieur van Kapsalon TND Zaandam.",
       },
     ],
     highlights: [
@@ -189,87 +303,28 @@ export const locations: LocationData[] = [
       "Beauty, extensions en kleur op aanvraag",
       "Massage en aanvullende behandelingen",
     ],
-    priceSections: [
-      {
-        title: "Haarverzorging",
-        items: [
-          { service: "Normaal knippen", price: "EUR 20" },
-          { service: "Overloop", price: "EUR 25" },
-          { service: "Haren knippen (alleen met schaar)", price: "EUR 30" },
-          { service: "Haren knippen (vrouw)", price: "EUR 30" },
-          { service: "Fohnen", price: "EUR 30" },
-          { service: "Baardscheren / trimmen / overloop", price: "EUR 10" },
-          { service: "Wassen haar", price: "EUR 5" },
-          { service: "Contouren (snor)", price: "Gratis*" },
-        ],
-      },
-      {
-        title: "Waxen",
-        items: [
-          { service: "Hele gezicht", price: "EUR 30" },
-          { service: "Hele lichaam", price: "v.a." },
-          { service: "Wangen", price: "EUR 10" },
-          { service: "Neus", price: "Gratis*" },
-          { service: "Oren", price: "Gratis*" },
-        ],
-      },
-      {
-        title: "Epileren",
-        items: [
-          { service: "Hele gezicht", price: "v.a." },
-          { service: "Wangen", price: "EUR 10" },
-          { service: "Wenkbrauwen", price: "EUR 15" },
-        ],
-      },
-      {
-        title: "Beauty & kleur",
-        description: "Prijzen die op de huidige site als v.a. staan, blijven op aanvraag.",
-        items: [
-          { service: "Haarverf (man)", price: "EUR 20" },
-          { service: "Baardverf", price: "EUR 10" },
-          { service: "Keratine & proteine", price: "v.a." },
-          { service: "Haarverf (vrouw)", price: "v.a." },
-          { service: "Make-up expert", price: "v.a." },
-          {
-            service: "Hair extensions, installatie en verkoop",
-            price: "v.a.",
-          },
-        ],
-      },
-      {
-        title: "Gezichtsbehandeling",
-        items: [
-          { service: "Masker en scrub", price: "EUR 30" },
-          { service: "Black masker", price: "EUR 15" },
-          { service: "Scrub", price: "EUR 10" },
-          { service: "Gezicht creme of tonic", price: "Gratis*" },
-        ],
-      },
-      {
-        title: "Massage & extra",
-        items: [
-          { service: "Nagels + pedicure-spa", price: "EUR 20 v.a." },
-          { service: "Massage Relax Normal", price: "30 min EUR 45 / 1h EUR 55" },
-          { service: "Massage Medical Hard", price: "30 min EUR 45 / 1h EUR 65" },
-          { service: "Massage Speciaal Royal", price: "1h EUR 85" },
-          { service: "Hoofdmassage", price: "EUR 10" },
-        ],
-      },
-    ],
-    note:
-      "* Gratis behandelingen gelden in combinatie met minimaal 1 betaalde behandeling uit het prijsoverzicht.",
+    pricesByGender: {
+      dames: pricesDamesAllLocations,
+      heren: pricesHerenOostZaandam,
+    },
   },
 ];
 
-export const locationsBySlug = {
-  amsterdam: locations[0],
-  zaandam: locations[1],
+export const locationsBySlug: Record<LocationData["slug"], LocationData> = {
+  "amsterdam-oost": locations[0]!,
+  "amsterdam-west": locations[1]!,
+  zaandam: locations[2]!,
 };
 
 export const footerSocialLinks = [
   {
-    label: "WhatsApp Amsterdam",
-    href: locationsBySlug.amsterdam.whatsappHref,
+    label: "WhatsApp Amsterdam - Oost",
+    href: locationsBySlug["amsterdam-oost"].whatsappHref,
+    icon: MessageCircleMore,
+  },
+  {
+    label: "WhatsApp Amsterdam - West",
+    href: locationsBySlug["amsterdam-west"].whatsappHref,
     icon: MessageCircleMore,
   },
   {

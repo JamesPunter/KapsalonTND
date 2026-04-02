@@ -1,185 +1,226 @@
-import { ArrowUpRight, MapPin, MessageCircleMore, Phone } from "lucide-react";
+import { ArrowUpRight, MapPin, Phone } from "lucide-react";
 
-import type { LocationData } from "@/data/site-content";
+import { type LocationData } from "@/data/site-content";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
+
+function googleMapsEmbedSrc(address: string) {
+  const q = encodeURIComponent(address);
+  return `https://maps.google.com/maps?q=${q}&z=16&hl=nl&ie=UTF8&iwloc=&output=embed`;
+}
 
 type LocationPageProps = {
   location: LocationData;
 };
 
-const heroImagePositions: Record<LocationData["slug"], string> = {
-  amsterdam: "object-[center_52%]",
-  zaandam: "object-[center_50%]",
-};
-
-const galleryImagePositions: Record<LocationData["slug"], string[]> = {
-  amsterdam: [
-    "object-[center_44%]",
-    "object-[center_46%]",
-    "object-[center_40%]",
-  ],
-  zaandam: [
-    "object-[center_0%]",
-    "object-[center_10.5%]",
-    "object-[center_32%]",
-  ],
-};
-
-export function LocationPage({ location }: LocationPageProps) {
-  const remainingGallery = location.gallery.filter(
-    (image) => image.src !== location.heroImage,
+function WhatsappIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden
+      className={className}
+      fill="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+    </svg>
   );
-  const delayClasses = [
-    "motion-delay-1",
-    "motion-delay-2",
-    "motion-delay-3",
-    "motion-delay-4",
-    "motion-delay-5",
-  ];
+}
+
+/** Renders "Amsterdam - …" with a sans hyphen so it stays horizontal (display serif hyphens can look slanted). */
+function LocationHeroTitle({ name }: { name: string }) {
+  const parts = name.split(" - ");
+  if (parts.length === 2) {
+    return (
+      <>
+        {parts[0]}
+        <span className="font-sans align-baseline text-[0.82em] font-semibold tracking-normal">
+          {"\u00A0-\u00A0"}
+        </span>
+        {parts[1]}
+      </>
+    );
+  }
+  return <>{name}</>;
+}
+
+function LocationPriceBlocks({ location }: LocationPageProps) {
+  const scrollOffsetClass = "scroll-mt-28";
+
+  const contactCtaClass = cn(
+    "inline-flex min-h-11 items-center justify-center gap-2 rounded-none border border-navy bg-navy px-6 py-2.5 text-sm font-semibold text-stone-100 shadow-[0_2px_10px_rgb(0_8_15/0.22)] transition-[box-shadow,transform,background-color] duration-200",
+    "hover:-translate-y-px hover:bg-[#001018] hover:shadow-[0_4px_18px_rgb(0_8_15/0.32)]",
+    "active:translate-y-0 active:shadow-[0_2px_8px_rgb(0_8_15/0.2)]",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f8f3e8]",
+  );
+
+  const renderGender = (gender: "dames" | "heren", id: string, label: string) => (
+    <section
+      className={cn("motion-enter space-y-6", scrollOffsetClass)}
+      id={id}
+    >
+      <h2 className="font-display text-2xl tracking-[0.08em] text-navy uppercase sm:text-3xl">
+        {label}
+      </h2>
+      <div className="grid gap-10 sm:grid-cols-2 sm:gap-8 lg:gap-12">
+        {location.pricesByGender[gender].map((section) => (
+          <div key={`${gender}-${section.title}`} className="space-y-3">
+            <h3 className="text-sm font-semibold tracking-[0.12em] text-navy/90 uppercase">
+              {section.title}
+            </h3>
+            {section.description ? (
+              <p className="text-sm leading-6 text-foreground/75">
+                {section.description}
+              </p>
+            ) : null}
+            {section.items.length > 0 ? (
+              <ul className="divide-y divide-navy/10 border-t border-navy/10 text-sm">
+                {section.items.map((row) => (
+                  <li
+                    className="flex items-baseline justify-between gap-4 py-2.5"
+                    key={`${section.title}-${row.service}`}
+                  >
+                    <span className="text-foreground/90">{row.service}</span>
+                    <span className="shrink-0 font-medium tabular-nums text-navy">
+                      {row.price}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col gap-14 px-4 py-8 pb-28 sm:px-6 sm:py-10 sm:pb-32 lg:px-8 lg:pb-40">
-      <section>
-        <div className="motion-enter mx-auto max-w-5xl overflow-hidden rounded-xl shadow-lg">
-          <div className="group relative overflow-hidden">
+    <div className="mx-auto flex w-full min-w-0 max-w-5xl flex-col gap-16 border-t border-navy/15 pt-10 sm:pt-12">
+      <div className="motion-enter flex flex-wrap justify-center gap-3 sm:gap-4">
+        <a className={contactCtaClass} href={location.phoneHref}>
+          <Phone aria-hidden className="size-4 shrink-0" strokeWidth={2} />
+          Bel ons
+        </a>
+        <a
+          className={contactCtaClass}
+          href={location.whatsappHref}
+          rel="noreferrer"
+          target="_blank"
+        >
+          <WhatsappIcon className="size-4 shrink-0" />
+          Stuur een bericht
+        </a>
+      </div>
+      {renderGender("dames", "prijzen-dames", "Dames")}
+      {renderGender("heren", "prijzen-heren", "Heren")}
+    </div>
+  );
+}
+
+function LocationMapSection({ location }: LocationPageProps) {
+  const headingId = `locatie-kaart-${location.slug}`;
+
+  return (
+    <section
+      aria-labelledby={headingId}
+      className="mx-auto w-full min-w-0 max-w-5xl space-y-4 py-12 sm:py-16"
+    >
+      <h2
+        className="font-display text-2xl tracking-[0.08em] text-navy uppercase sm:text-3xl"
+        id={headingId}
+      >
+        Locatie
+      </h2>
+      <div className="motion-enter overflow-hidden rounded-xl shadow-md ring-1 ring-navy/10">
+        <iframe
+          allowFullScreen
+          className="aspect-[16/10] min-h-[min(50vw,18rem)] w-full border-0 sm:min-h-[20rem]"
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          src={googleMapsEmbedSrc(location.address)}
+          title={`Google Maps: ${location.name} — ${location.address}`}
+        />
+      </div>
+      <a
+        className="motion-lift inline-flex items-center gap-2 text-sm font-medium text-navy underline decoration-navy/25 underline-offset-4 transition-colors hover:decoration-navy/60"
+        href={location.mapHref}
+        rel="noreferrer"
+        target="_blank"
+      >
+        <MapPin aria-hidden className="size-4 shrink-0" />
+        Open in Google Maps
+        <ArrowUpRight aria-hidden className="size-4 shrink-0" />
+      </a>
+    </section>
+  );
+}
+
+export function LocationPage({ location }: LocationPageProps) {
+  const galleryExtras = location.gallery.filter(
+    (item) => item.src !== location.heroImage,
+  );
+
+  return (
+    <div className="mx-auto flex min-w-0 max-w-7xl flex-col gap-14 px-4 py-8 pb-28 sm:px-6 sm:py-10 sm:pb-32 lg:px-8 lg:pb-40">
+      <section className="flex w-full min-w-0 flex-col gap-6">
+        <div className="motion-enter mx-auto w-full min-w-0 max-w-5xl overflow-hidden rounded-xl shadow-lg">
+          <div className="relative flex w-full min-h-[22rem] flex-col justify-end overflow-hidden rounded-xl bg-navy px-5 pb-10 pt-16 sm:min-h-[30rem] sm:px-8 sm:pb-12 sm:pt-20 lg:min-h-[min(40rem,70vh)] lg:px-10 lg:pb-14 lg:pt-24">
             <img
-              alt={`${location.name} storefront`}
+              alt={`Interieur van ${location.name}`}
               className={cn(
-                "motion-media motion-pan h-[24rem] w-full object-cover sm:h-[32rem] lg:h-[38rem]",
-                heroImagePositions[location.slug],
+                "absolute inset-0 size-full object-cover",
+                location.slug === "amsterdam-west"
+                  ? "object-[center_12%]"
+                  : "object-center",
               )}
+              decoding="async"
               src={location.heroImage}
             />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_30%,rgba(12,10,9,0.7)_100%)]" />
-            <div className="absolute inset-x-0 bottom-0 px-5 pb-6 sm:px-8 sm:pb-8 lg:px-10 lg:pb-10">
-              <div className="motion-enter motion-delay-2">
-                <h1 className="font-display text-3xl tracking-[0.08em] text-white uppercase sm:text-4xl lg:text-5xl">
-                  {location.name}
-                </h1>
-                <p className="mt-2 max-w-md text-sm leading-6 text-stone-200 sm:text-base">
-                  {location.address}
-                </p>
-                <a
-                  className="mt-3 inline-flex items-center gap-2 text-sm text-white/80 transition-colors hover:text-white"
-                  href={location.mapHref}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  <MapPin className="size-4" />
-                  Open route
-                  <ArrowUpRight className="size-4" />
-                </a>
-              </div>
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-[linear-gradient(to_top,rgb(0_8_15/0.45)_0%,rgb(0_8_15/0.08)_32%,transparent_48%),linear-gradient(to_right,rgb(0_8_15/0.52)_0%,rgb(0_8_15/0.18)_36%,rgb(0_8_15/0.04)_50%,transparent_64%)]"
+            />
+            <div className="relative z-10 w-full max-w-lg self-start motion-enter motion-delay-2 [text-shadow:0_1px_2px_rgb(0_0_0/0.55),0_2px_16px_rgb(0_0_0/0.35)]">
+              <h1 className="font-display text-3xl tracking-[0.08em] text-white uppercase sm:text-4xl lg:text-5xl">
+                <LocationHeroTitle name={location.name} />
+              </h1>
+              <p className="mt-2 max-w-md text-sm leading-6 text-stone-100 sm:text-base">
+                {location.address}
+              </p>
+              <a
+                className="mt-3 inline-flex items-center gap-2 text-sm text-white/90 transition-colors hover:text-white"
+                href={location.mapHref}
+                rel="noreferrer"
+                target="_blank"
+              >
+                <MapPin className="size-4" />
+                Open route
+                <ArrowUpRight className="size-4" />
+              </a>
             </div>
           </div>
         </div>
+
+        {galleryExtras.length > 0 ? (
+          <div className="mx-auto grid w-full max-w-5xl gap-4 sm:grid-cols-2 sm:gap-5">
+            {galleryExtras.map((item) => (
+              <div
+                className="motion-enter overflow-hidden rounded-xl shadow-md ring-1 ring-navy/10"
+                key={item.src}
+              >
+                <img
+                  alt={item.alt}
+                  className="aspect-[4/3] size-full object-cover"
+                  decoding="async"
+                  src={item.src}
+                />
+              </div>
+            ))}
+          </div>
+        ) : null}
       </section>
 
-      {/* Price list */}
-      <section className="mx-auto flex w-full max-w-5xl flex-col gap-8">
-        <div className="motion-enter space-y-2 text-center">
-          <h2 className="font-display text-4xl tracking-[0.08em] text-stone-950 uppercase sm:text-5xl">
-            Prijslijst
-          </h2>
-        </div>
+      <LocationPriceBlocks location={location} />
 
-        <div className="grid gap-5 sm:gap-6 lg:grid-cols-2">
-          {location.priceSections.map((section, index) => (
-            <article
-              key={section.title}
-              className={cn(
-                "motion-enter motion-lift overflow-hidden rounded-xl border border-stone-300/60 bg-white shadow-sm",
-                delayClasses[index] ?? "motion-delay-1",
-              )}
-            >
-              <div className="border-b border-stone-200/80 px-5 py-4 sm:px-6">
-                <p className="font-display text-2xl tracking-[0.08em] text-stone-800 uppercase">
-                  {section.title}
-                </p>
-                {section.description ? (
-                  <p className="mt-1.5 max-w-md text-sm leading-5 text-stone-500">
-                    {section.description}
-                  </p>
-                ) : null}
-              </div>
-
-              <div>
-                {section.items.map((item, itemIndex) => (
-                  <div
-                    key={`${section.title}-${item.service}`}
-                    className={cn(
-                      "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 px-5 py-3 sm:px-6",
-                      itemIndex % 2 === 1 ? "bg-stone-50/70" : "",
-                    )}
-                  >
-                    <p className="text-sm leading-5 font-medium text-stone-700 sm:text-[0.95rem]">
-                      {item.service}
-                    </p>
-                    <p className="text-right text-sm font-semibold text-stone-900">
-                      {item.price}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <p className="motion-enter motion-delay-2 text-sm leading-7 text-stone-600">
-          {location.note}
-        </p>
-
-        {/* CTA buttons — larger with golden hover accent */}
-        <div className="grid gap-3 sm:grid-cols-2">
-          <a
-            className={cn(
-              buttonVariants({ size: "lg" }),
-              "cta-btn motion-enter motion-delay-3 motion-lift h-16 justify-center rounded-xl border border-stone-950 bg-stone-950 px-8 text-base text-stone-50 transition-all hover:bg-stone-800 hover:shadow-lg hover:shadow-amber-900/10 sm:text-lg",
-            )}
-            href={location.phoneHref}
-          >
-            <Phone className="size-5" />
-            {location.phoneDisplay}
-          </a>
-          <a
-            className={cn(
-              buttonVariants({ size: "lg" }),
-              "cta-btn motion-enter motion-delay-4 motion-lift h-16 justify-center rounded-xl border-2 border-amber-700/20 bg-gradient-to-r from-amber-50 to-amber-100/60 px-8 text-base font-semibold text-stone-900 transition-all hover:from-amber-100 hover:to-amber-200/60 hover:shadow-lg hover:shadow-amber-900/10 sm:text-lg",
-            )}
-            href={location.whatsappHref}
-            rel="noreferrer"
-            target="_blank"
-          >
-            <MessageCircleMore className="size-5" />
-            WhatsApp {location.name}
-          </a>
-        </div>
-      </section>
-
-      {/* Gallery with golden overlay and rounded corners */}
-      {remainingGallery.length > 0 ? (
-        <section className="mx-auto grid w-full max-w-5xl gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {remainingGallery.map((image, index) => (
-            <div
-              key={image.src}
-              className={cn(
-                "gallery-item group motion-enter motion-lift overflow-hidden rounded-xl",
-                delayClasses[index] ?? "motion-delay-1",
-              )}
-            >
-              <img
-                alt={image.alt}
-                className={cn(
-                  "motion-media h-72 w-full rounded-xl object-cover sm:h-80",
-                  galleryImagePositions[location.slug][index],
-                )}
-                src={image.src}
-              />
-            </div>
-          ))}
-        </section>
-      ) : null}
+      <LocationMapSection location={location} />
     </div>
   );
 }

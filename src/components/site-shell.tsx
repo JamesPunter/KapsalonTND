@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { Menu, MessageCircleMore, Phone } from "lucide-react";
+import { Instagram, Menu, MessageCircleMore, Phone } from "lucide-react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 
 import {
+  homeHeroImageFreepikAttribution,
+  locations,
   locationsBySlug,
   navigationItems,
 } from "@/data/site-content";
@@ -58,12 +60,12 @@ export function SiteShell() {
   }, [isHomePage]);
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#f8f3e8_0%,#f3ede1_24%,#fbf8f2_100%)] text-foreground">
+    <div className="min-h-screen overflow-x-clip bg-[linear-gradient(180deg,#f8f3e8_0%,#f3ede1_24%,#fbf8f2_100%)] text-foreground">
       <SiteHeader
         isHomePage={isHomePage}
         isVisible={showHomeHeader}
       />
-      <main>
+      <main className="min-w-0">
         <Outlet />
       </main>
       <SiteFooter />
@@ -83,11 +85,14 @@ function SiteHeader({ isHomePage, isVisible }: SiteHeaderProps) {
         "top-0 z-40 border-b transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
         isHomePage ? "fixed inset-x-0" : "sticky",
         isVisible
-          ? "translate-y-0 border-amber-950/10 bg-background/86 opacity-100 backdrop-blur-xl"
-          : "pointer-events-none -translate-y-6 border-transparent bg-background/0 opacity-0 backdrop-blur-none",
+          ? "translate-y-0 border-white/15 bg-navy/95 text-stone-100 opacity-100 shadow-[0_1px_0_rgba(255,255,255,0.06)_inset] backdrop-blur-xl"
+          : cn(
+              "pointer-events-none -translate-y-6 border-transparent bg-transparent text-stone-100 opacity-0 backdrop-blur-none",
+              "max-md:translate-y-0 max-md:pointer-events-auto max-md:border-white/15 max-md:bg-navy/95 max-md:opacity-100 max-md:shadow-[0_1px_0_rgba(255,255,255,0.06)_inset] max-md:backdrop-blur-xl",
+            ),
       )}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-7xl min-w-0 items-center justify-between gap-2 px-4 py-3 sm:gap-4 sm:px-6 lg:px-8">
         <BrandLockup />
 
         <nav className="hidden items-center gap-1.5 md:flex">
@@ -98,8 +103,8 @@ function SiteHeader({ isHomePage, isVisible }: SiteHeaderProps) {
                 cn(
                   linkBaseClasses,
                   isActive
-                    ? "nav-link-active bg-stone-950 text-stone-50 shadow-sm"
-                    : "text-stone-700 hover:bg-stone-950/5 hover:text-stone-950",
+                    ? "bg-amber-100/95 text-navy shadow-sm"
+                    : "text-stone-400 hover:bg-white/10 hover:text-stone-50",
                 )
               }
               end={item.href === "/"}
@@ -113,19 +118,19 @@ function SiteHeader({ isHomePage, isVisible }: SiteHeaderProps) {
           <SheetTrigger
             className={cn(
               buttonVariants({ variant: "outline", size: "icon-lg" }),
-              "md:hidden",
+              "md:hidden border-white/25 bg-white/10 text-stone-100 hover:bg-white/15 hover:text-white",
             )}
           >
             <Menu className="size-5" />
             <span className="sr-only">Open menu</span>
           </SheetTrigger>
-          <SheetContent className="w-[88vw] max-w-sm border-l border-stone-950/10 bg-[#f8f3e8]">
-            <SheetHeader className="border-b border-stone-950/10 pb-5">
-              <SheetTitle className="font-display text-3xl tracking-[0.08em] uppercase">
+          <SheetContent className="w-[88vw] max-w-sm border-l border-white/15 bg-navy text-stone-100 [&_button]:text-stone-300 [&_button:hover]:bg-white/10 [&_button:hover]:text-white">
+            <SheetHeader className="border-b border-white/10 pb-5">
+              <SheetTitle className="font-display text-3xl tracking-[0.08em] text-stone-50 uppercase">
                 Kapsalon TND
               </SheetTitle>
-              <SheetDescription>
-                Drie pagina&apos;s, twee locaties en een compleet vernieuwde frontend.
+              <SheetDescription className="text-stone-400">
+                Home en drie locatiepagina&apos;s in een vernieuwde frontend.
               </SheetDescription>
             </SheetHeader>
             <div className="flex flex-col gap-2 px-4 pb-6">
@@ -136,8 +141,8 @@ function SiteHeader({ isHomePage, isVisible }: SiteHeaderProps) {
                     cn(
                       "motion-lift rounded-2xl px-4 py-3 text-sm font-medium transition-colors",
                       isActive
-                        ? "bg-stone-950 text-stone-50"
-                        : "bg-white text-stone-800 ring-1 ring-stone-950/10 hover:bg-stone-50",
+                        ? "bg-amber-100/95 text-navy"
+                        : "bg-white/10 text-stone-200 ring-1 ring-white/15 hover:bg-white/15 hover:text-white",
                     )
                   }
                   end={item.href === "/"}
@@ -151,17 +156,27 @@ function SiteHeader({ isHomePage, isVisible }: SiteHeaderProps) {
                 <a
                   className={cn(
                     buttonVariants({ variant: "outline", size: "lg" }),
-                    "motion-lift justify-start rounded-2xl border-stone-950/10 bg-white",
+                    "motion-lift justify-start rounded-2xl border-white/25 bg-white/10 text-stone-100 hover:bg-white/15",
                   )}
-                  href={locationsBySlug.amsterdam.phoneHref}
+                  href={locationsBySlug["amsterdam-oost"].phoneHref}
                 >
                   <Phone className="size-4" />
-                  Bel Amsterdam
+                  Bel Amsterdam - Oost
+                </a>
+                <a
+                  className={cn(
+                    buttonVariants({ variant: "outline", size: "lg" }),
+                    "motion-lift justify-start rounded-2xl border-white/25 bg-white/10 text-stone-100 hover:bg-white/15",
+                  )}
+                  href={locationsBySlug["amsterdam-west"].phoneHref}
+                >
+                  <Phone className="size-4" />
+                  Bel Amsterdam - West
                 </a>
                 <a
                   className={cn(
                     buttonVariants({ size: "lg" }),
-                    "motion-lift justify-start rounded-2xl bg-stone-950 text-stone-50 hover:bg-stone-800",
+                    "motion-lift justify-start rounded-2xl bg-amber-600 text-navy hover:bg-amber-500",
                   )}
                   href={locationsBySlug.zaandam.whatsappHref}
                   rel="noreferrer"
@@ -179,11 +194,15 @@ function SiteHeader({ isHomePage, isVisible }: SiteHeaderProps) {
   );
 }
 
+const INSTAGRAM_URL = "https://www.instagram.com/kapsalon_tnd/";
+
+const GOLDEN_COIL_ICON_SRC = assetPath("images/brand/favicon-coil-dark.png");
+
 function SiteFooter() {
   return (
-    <footer className="relative border-t border-stone-950/10 bg-stone-950 text-stone-100">
+    <footer className="relative border-t border-white/10 bg-navy text-stone-100">
       {/* Gradient transition from page to footer */}
-      <div className="absolute -top-16 inset-x-0 h-16 bg-gradient-to-b from-transparent to-stone-950/8 pointer-events-none" />
+      <div className="absolute -top-16 inset-x-0 h-16 bg-gradient-to-b from-transparent to-navy/20 pointer-events-none" />
 
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1.2fr_0.8fr_0.8fr] lg:px-8">
         <div className="motion-enter space-y-5">
@@ -194,6 +213,15 @@ function SiteFooter() {
             <p className="mt-3 max-w-xs text-sm leading-6 text-stone-400">
               Uw kapper in Amsterdam en Zaandam.
             </p>
+            <a
+              className="motion-lift mt-4 inline-flex items-center gap-2 text-sm text-stone-300 transition-colors hover:text-white"
+              href={INSTAGRAM_URL}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <Instagram aria-hidden className="size-4 shrink-0" />
+              Vind ons op Instagram
+            </a>
           </div>
         </div>
 
@@ -201,19 +229,20 @@ function SiteFooter() {
           <h3 className="text-sm font-semibold tracking-[0.2em] text-stone-100 uppercase">
             Locaties
           </h3>
-          <div className="grid gap-3">
-            <Link
-              className="motion-lift text-base text-stone-300 transition-colors hover:text-white"
-              to="/amsterdam"
-            >
-              Amsterdam
-            </Link>
-            <Link
-              className="motion-lift text-base text-stone-300 transition-colors hover:text-white"
-              to="/zaandam"
-            >
-              Zaandam
-            </Link>
+          <div className="grid gap-5">
+            {locations.map((loc) => (
+              <div key={loc.slug} className="space-y-1">
+                <Link
+                  className="motion-lift text-base text-stone-300 transition-colors hover:text-white"
+                  to={`/${loc.slug}`}
+                >
+                  {loc.name}
+                </Link>
+                <p className="max-w-[18rem] text-sm leading-snug text-stone-500">
+                  {loc.address}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -223,13 +252,74 @@ function SiteFooter() {
           </h3>
           <div className="grid gap-3 text-sm text-stone-300">
             <div>
-              <p className="text-xs tracking-[0.14em] text-stone-500 uppercase">Amsterdam</p>
-              <p className="mt-1">{locationsBySlug.amsterdam.phoneDisplay}</p>
+              <p className="text-xs tracking-[0.14em] text-stone-500 uppercase">
+                Amsterdam - Oost
+              </p>
+              <p className="mt-1">
+                {locationsBySlug["amsterdam-oost"].phoneDisplay}
+              </p>
             </div>
             <div>
-              <p className="text-xs tracking-[0.14em] text-stone-500 uppercase">Zaandam</p>
+              <p className="text-xs tracking-[0.14em] text-stone-500 uppercase">
+                Amsterdam - West
+              </p>
+              <p className="mt-1">
+                {locationsBySlug["amsterdam-west"].phoneDisplay}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs tracking-[0.14em] text-stone-500 uppercase">
+                Zaandam
+              </p>
               <p className="mt-1">{locationsBySlug.zaandam.phoneDisplay}</p>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-white/10">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-6 gap-y-3 px-4 py-6 sm:px-6 lg:px-8">
+          <a
+            className="motion-lift inline-flex w-fit shrink-0 items-center gap-2 text-xs text-stone-400 transition-colors hover:text-stone-300"
+            href="https://goldencoil.nl"
+            rel="noreferrer"
+            target="_blank"
+          >
+            <span
+              aria-hidden
+              className="inline-block size-4 shrink-0 bg-current"
+              style={{
+                maskImage: `url("${GOLDEN_COIL_ICON_SRC}")`,
+                maskPosition: "center",
+                maskRepeat: "no-repeat",
+                maskSize: "contain",
+                WebkitMaskImage: `url("${GOLDEN_COIL_ICON_SRC}")`,
+                WebkitMaskPosition: "center",
+                WebkitMaskRepeat: "no-repeat",
+                WebkitMaskSize: "contain",
+              }}
+            />
+            <span>Website gemaakt door Golden Coil</span>
+          </a>
+          <div className="ml-auto flex min-w-0 max-w-full flex-wrap items-center justify-end gap-x-4 gap-y-1 text-[0.65rem] leading-relaxed text-stone-400">
+            <a
+              className="underline decoration-stone-400/45 underline-offset-2 transition-colors hover:text-stone-300"
+              href={homeHeroImageFreepikAttribution.href}
+              rel="noreferrer"
+              title={homeHeroImageFreepikAttribution.title}
+              target="_blank"
+            >
+              {homeHeroImageFreepikAttribution.linkText}
+            </a>
+            <a
+              className="underline decoration-stone-400/45 underline-offset-2 transition-colors hover:text-stone-300"
+              href="https://www.flaticon.com/free-icons/flexibility"
+              rel="noreferrer"
+              title="flexibility icons"
+              target="_blank"
+            >
+              Flexibility icons created by Freepik - Flaticon
+            </a>
           </div>
         </div>
       </div>
@@ -237,18 +327,25 @@ function SiteFooter() {
   );
 }
 
+const LOGO_CLEAR_INTRINSIC = { w: 1600, h: 1327 } as const;
+
 function BrandLockup() {
   return (
-    <Link className="group flex items-center gap-3" to="/">
-      <span className="flex size-12 shrink-0 overflow-hidden rounded-2xl border border-stone-950/10 bg-stone-950 shadow-[0_12px_30px_-16px_rgba(18,18,18,0.85)] transition-transform duration-500 group-hover:-translate-y-0.5 sm:size-14">
-        <img
-          alt="Kapsalon TND logo"
-          className="motion-media h-full w-full object-cover"
-          src={assetPath("images/brand/tnd.jpg")}
-        />
-      </span>
-      <div className="min-w-0">
-        <p className="font-display text-2xl leading-none tracking-[0.14em] text-stone-950 uppercase sm:text-3xl">
+    <Link
+      className="flex min-w-0 max-w-[calc(100vw-5.5rem)] flex-1 items-center gap-2.5 sm:max-w-none sm:flex-none sm:gap-3"
+      to="/"
+    >
+      <img
+        alt="Kapsalon TND logo"
+        className="h-11 w-auto max-w-[min(10rem,calc(100vw-8rem))] shrink-0 object-contain drop-shadow-[0_2px_8px_rgb(0_8_15/0.4)] sm:h-12 sm:max-w-[11rem]"
+        decoding="async"
+        fetchPriority="high"
+        height={LOGO_CLEAR_INTRINSIC.h}
+        src={assetPath("images/brand/TNDlogoClear.png")}
+        width={LOGO_CLEAR_INTRINSIC.w}
+      />
+      <div className="min-w-0 flex-1 sm:flex-none">
+        <p className="truncate font-display text-lg leading-none tracking-[0.12em] text-stone-50 uppercase sm:text-2xl sm:tracking-[0.14em] md:text-3xl">
           Kapsalon TND
         </p>
       </div>

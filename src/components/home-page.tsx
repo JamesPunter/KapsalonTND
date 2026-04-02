@@ -1,13 +1,19 @@
-import { Instagram } from "lucide-react";
+import { useCallback, useRef } from "react";
+import { ChevronLeft, ChevronRight, Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
 
-import { homeGallery, locations } from "@/data/site-content";
+import {
+  homeGallery,
+  homeGalleryCarouselPlaceholderCount,
+  locations,
+} from "@/data/site-content";
 import { cn } from "@/lib/utils";
 import { assetPath } from "@/lib/asset-path";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 export function HomePage() {
   const heroImage = assetPath("images/home/client-doing-hair-cut-barber-shop-salon.jpg");
+  const galleryScrollerRef = useRef<HTMLDivElement>(null);
   const galleryImagePositions = [
     "object-[center_22%]",
     "object-[center_85%]",
@@ -17,7 +23,19 @@ export function HomePage() {
     "motion-delay-1",
     "motion-delay-2",
     "motion-delay-3",
+    "motion-delay-4",
+    "motion-delay-5",
+    "motion-delay-5",
   ];
+
+  const scrollGallery = useCallback((direction: -1 | 1) => {
+    const el = galleryScrollerRef.current;
+    if (!el) return;
+    const slide = el.querySelector<HTMLElement>("[data-gallery-slide]");
+    const gapPx = Number.parseFloat(getComputedStyle(el).gap) || 16;
+    const step = (slide?.offsetWidth ?? el.clientWidth * 0.82) + gapPx;
+    el.scrollBy({ left: direction * step, behavior: "smooth" });
+  }, []);
 
   return (
     <div className="flex flex-col">
@@ -30,26 +48,24 @@ export function HomePage() {
         />
 
         {/* Dark gradient overlays */}
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,10,9,0.25)_0%,rgba(12,10,9,0.1)_40%,rgba(12,10,9,0.65)_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(12,10,9,0.15),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,8,15,0.32)_0%,rgba(0,8,15,0.14)_40%,rgba(0,8,15,0.78)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,8,15,0.22),transparent_60%)]" />
 
         {/* Content overlay */}
-        <div className="relative z-10 flex w-full flex-col items-center gap-8 px-4 pb-12 pt-32 sm:items-start sm:px-6 sm:pb-16 lg:px-8 lg:pb-20">
+        <div className="relative z-10 flex w-full min-w-0 flex-col items-center gap-8 px-4 pb-[max(3rem,env(safe-area-inset-bottom))] pt-[max(6rem,calc(env(safe-area-inset-top)+4.5rem))] sm:items-start sm:px-6 sm:pb-16 sm:pt-32 lg:px-8 lg:pb-20">
           <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-8 sm:items-start">
             {/* Logo + Name */}
             <div className="motion-enter flex flex-col items-center gap-4 sm:flex-row sm:gap-5">
-              <span className="shrink-0 overflow-hidden rounded-2xl bg-[#1a1a2e] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.6)]">
-                <img
-                  alt="Kapsalon TND logo"
-                  className="block h-20 w-20 scale-[1.06] object-cover sm:h-24 sm:w-24"
-                  src={assetPath("images/brand/tnd.jpg")}
-                />
-              </span>
+              <img
+                alt="Kapsalon TND logo"
+                className="motion-media shrink-0 h-[5.25rem] w-auto max-w-[min(16rem,88vw)] object-contain drop-shadow-[0_14px_36px_rgba(0,8,15,0.5)] sm:h-[6.25rem] sm:max-w-[18rem]"
+                src={assetPath("images/brand/TNDlogoClear.png")}
+              />
               <div className="min-w-0 space-y-2 text-center sm:text-left">
                 <p className="text-xs font-medium tracking-[0.28em] text-white/60 uppercase">
                   Amsterdam & Zaandam
                 </p>
-                <h1 className="font-display text-5xl leading-[0.95] tracking-[0.08em] text-white uppercase sm:text-6xl lg:text-7xl">
+                <h1 className="font-display text-4xl leading-[0.95] tracking-[0.08em] text-white uppercase sm:text-6xl lg:text-7xl">
                   Kapsalon TND
                 </h1>
               </div>
@@ -85,7 +101,11 @@ export function HomePage() {
                     className={cn(
                       buttonVariants({ size: "lg" }),
                       "motion-enter motion-lift cta-btn rounded-full border border-white/20 bg-white/12 px-7 py-2.5 text-base text-white backdrop-blur-md hover:bg-white/22",
-                      index === 0 ? "motion-delay-3" : "motion-delay-4",
+                      index === 0
+                        ? "motion-delay-3"
+                        : index === 1
+                          ? "motion-delay-4"
+                          : "motion-delay-5",
                     )}
                     to={`/${location.slug}`}
                   >
@@ -105,26 +125,93 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Gallery */}
-      <section className="mx-auto grid max-w-7xl gap-4 px-4 py-12 sm:grid-cols-2 sm:px-6 sm:py-16 lg:px-8 xl:grid-cols-3">
-        {homeGallery.slice(1).map((image, index) => (
+      {/* Gallery carousel */}
+      <section
+        aria-label="Salonwerk en resultaten"
+        className="mx-auto max-w-7xl min-w-0 px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
+      >
+        <div className="flex min-w-0 items-stretch gap-1.5 sm:gap-3">
+          <div className="flex shrink-0 items-center">
+            <Button
+              aria-label="Vorige afbeelding"
+              className={cn(
+                "size-9 rounded-full border-foreground/20 bg-background/95 text-foreground shadow-md backdrop-blur-sm sm:size-10",
+                "transition-[color,background-color,box-shadow,border-color,opacity]",
+                "active:!translate-y-0",
+              )}
+              onClick={() => scrollGallery(-1)}
+              size="icon"
+              type="button"
+              variant="outline"
+            >
+              <ChevronLeft className="size-5" />
+            </Button>
+          </div>
+
           <div
-            key={image.src}
+            ref={galleryScrollerRef}
             className={cn(
-              "gallery-item group motion-enter motion-lift overflow-hidden rounded-xl",
-              galleryDelayClasses[index] ?? "motion-delay-1",
+              "flex min-h-0 min-w-0 flex-1 gap-3 overflow-x-auto overscroll-x-contain scroll-smooth py-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-4",
+              "snap-x snap-mandatory scroll-px-1 sm:scroll-px-2",
+              "[&::-webkit-scrollbar]:hidden",
             )}
           >
-            <img
-              alt={image.alt}
-              className={cn(
-                "motion-media h-64 w-full rounded-xl object-cover sm:h-72 lg:h-80",
-                galleryImagePositions[index],
-              )}
-              src={image.src}
-            />
+            {homeGallery.slice(1).map((image, index) => (
+              <div
+                key={image.src}
+                className={cn(
+                  "gallery-item group motion-enter motion-lift w-[min(20rem,100%)] shrink-0 snap-center overflow-hidden rounded-xl sm:w-[min(20rem,85%)] sm:snap-start",
+                  galleryDelayClasses[index] ?? "motion-delay-1",
+                )}
+                data-gallery-slide
+              >
+                <img
+                  alt={image.alt}
+                  className={cn(
+                    "motion-media h-64 w-full rounded-xl object-cover sm:h-72 lg:h-80",
+                    image.objectPosition ??
+                      galleryImagePositions[index % galleryImagePositions.length],
+                  )}
+                  src={image.src}
+                />
+              </div>
+            ))}
+            {Array.from({ length: homeGalleryCarouselPlaceholderCount }, (_, i) => (
+              <div
+                key={`gallery-placeholder-${i}`}
+                className={cn(
+                  "gallery-item flex h-64 w-[min(20rem,100%)] shrink-0 snap-center flex-col items-center justify-center gap-2 overflow-hidden rounded-xl border border-dashed border-foreground/20 bg-foreground/[0.04] text-center sm:h-72 sm:w-[min(20rem,85%)] sm:snap-start lg:h-80",
+                  galleryDelayClasses[homeGallery.slice(1).length + i] ?? "motion-delay-1",
+                )}
+                data-gallery-slide
+              >
+                <span className="text-xs font-medium tracking-wide text-foreground/45 uppercase">
+                  Binnenkort
+                </span>
+                <span className="max-w-[12rem] text-sm text-foreground/55">
+                  Nog een foto volgt hier.
+                </span>
+              </div>
+            ))}
           </div>
-        ))}
+
+          <div className="flex shrink-0 items-center">
+            <Button
+              aria-label="Volgende afbeelding"
+              className={cn(
+                "size-9 rounded-full border-foreground/20 bg-background/95 text-foreground shadow-md backdrop-blur-sm sm:size-10",
+                "transition-[color,background-color,box-shadow,border-color,opacity]",
+                "active:!translate-y-0",
+              )}
+              onClick={() => scrollGallery(1)}
+              size="icon"
+              type="button"
+              variant="outline"
+            >
+              <ChevronRight className="size-5" />
+            </Button>
+          </div>
+        </div>
       </section>
     </div>
   );

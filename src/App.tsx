@@ -12,12 +12,24 @@ export function App() {
         <Route element={<SiteShell />}>
           <Route index element={<HomePage />} />
           <Route
-            path="amsterdam"
-            element={<LocationPage location={locationsBySlug.amsterdam} />}
+            path="amsterdam-oost"
+            element={
+              <LocationPage location={locationsBySlug["amsterdam-oost"]} />
+            }
+          />
+          <Route
+            path="amsterdam-west"
+            element={
+              <LocationPage location={locationsBySlug["amsterdam-west"]} />
+            }
           />
           <Route
             path="zaandam"
             element={<LocationPage location={locationsBySlug.zaandam} />}
+          />
+          <Route
+            path="amsterdam"
+            element={<Navigate replace to="/amsterdam-oost" />}
           />
           <Route path="*" element={<Navigate replace to="/" />} />
         </Route>
