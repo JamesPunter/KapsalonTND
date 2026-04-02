@@ -83,7 +83,7 @@ export function HomePage() {
               <a
                 className={cn(
                   buttonVariants({ variant: "ghost", size: "lg" }),
-                  "cta-btn motion-lift rounded-full border border-white/15 bg-white/10 px-5 py-2.5 text-white backdrop-blur-sm hover:bg-white/18 hover:text-white",
+                  "cta-btn motion-lift rounded-full border border-white/20 bg-navy/90 px-5 py-2.5 text-stone-100 shadow-[0_4px_20px_rgb(0_8_15/0.45)] backdrop-blur-sm hover:bg-navy hover:text-white",
                 )}
                 href="https://www.instagram.com/kapsalon_tnd/"
                 rel="noreferrer"
@@ -100,7 +100,7 @@ export function HomePage() {
                     key={location.slug}
                     className={cn(
                       buttonVariants({ size: "lg" }),
-                      "motion-enter motion-lift cta-btn rounded-full border border-white/20 bg-white/12 px-7 py-2.5 text-base text-white backdrop-blur-md hover:bg-white/22",
+                      "motion-enter motion-lift cta-btn rounded-full border border-white/20 bg-navy px-7 py-2.5 text-base text-stone-100 shadow-[0_6px_24px_rgb(0_8_15/0.5)] backdrop-blur-sm hover:bg-[#001420] hover:text-white",
                       index === 0
                         ? "motion-delay-3"
                         : index === 1
@@ -135,8 +135,9 @@ export function HomePage() {
             <Button
               aria-label="Vorige afbeelding"
               className={cn(
-                "size-9 rounded-full border-foreground/20 bg-background/95 text-foreground shadow-md backdrop-blur-sm sm:size-10",
+                "size-9 rounded-full border-white/20 bg-navy text-stone-100 shadow-[0_4px_16px_rgb(0_8_15/0.35)] backdrop-blur-sm sm:size-10",
                 "transition-[color,background-color,box-shadow,border-color,opacity]",
+                "hover:bg-[#001420] hover:text-white",
                 "active:!translate-y-0",
               )}
               onClick={() => scrollGallery(-1)}
@@ -199,8 +200,9 @@ export function HomePage() {
             <Button
               aria-label="Volgende afbeelding"
               className={cn(
-                "size-9 rounded-full border-foreground/20 bg-background/95 text-foreground shadow-md backdrop-blur-sm sm:size-10",
+                "size-9 rounded-full border-white/20 bg-navy text-stone-100 shadow-[0_4px_16px_rgb(0_8_15/0.35)] backdrop-blur-sm sm:size-10",
                 "transition-[color,background-color,box-shadow,border-color,opacity]",
+                "hover:bg-[#001420] hover:text-white",
                 "active:!translate-y-0",
               )}
               onClick={() => scrollGallery(1)}

@@ -85,10 +85,10 @@ function SiteHeader({ isHomePage, isVisible }: SiteHeaderProps) {
         "top-0 z-40 border-b transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
         isHomePage ? "fixed inset-x-0" : "sticky",
         isVisible
-          ? "translate-y-0 border-white/15 bg-navy/95 text-stone-100 opacity-100 shadow-[0_1px_0_rgba(255,255,255,0.06)_inset] backdrop-blur-xl"
+          ? "translate-y-0 border-white/10 bg-navy text-stone-100 opacity-100 shadow-[0_1px_0_rgba(255,255,255,0.06)_inset,0_8px_24px_rgb(0_8_15/0.35)] backdrop-blur-md"
           : cn(
               "pointer-events-none -translate-y-6 border-transparent bg-transparent text-stone-100 opacity-0 backdrop-blur-none",
-              "max-md:translate-y-0 max-md:pointer-events-auto max-md:border-white/15 max-md:bg-navy/95 max-md:opacity-100 max-md:shadow-[0_1px_0_rgba(255,255,255,0.06)_inset] max-md:backdrop-blur-xl",
+              "max-md:translate-y-0 max-md:pointer-events-auto max-md:border-white/10 max-md:bg-navy max-md:opacity-100 max-md:shadow-[0_1px_0_rgba(255,255,255,0.06)_inset,0_8px_24px_rgb(0_8_15/0.35)] max-md:backdrop-blur-md",
             ),
       )}
     >
@@ -200,9 +200,9 @@ const GOLDEN_COIL_ICON_SRC = assetPath("images/brand/favicon-coil-dark.png");
 
 function SiteFooter() {
   return (
-    <footer className="relative border-t border-white/10 bg-navy text-stone-100">
+    <footer className="relative border-t border-white/10 bg-navy text-stone-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
       {/* Gradient transition from page to footer */}
-      <div className="absolute -top-16 inset-x-0 h-16 bg-gradient-to-b from-transparent to-navy/20 pointer-events-none" />
+      <div className="pointer-events-none absolute inset-x-0 -top-16 h-16 bg-gradient-to-b from-transparent to-navy/25" />
 
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1.2fr_0.8fr_0.8fr] lg:px-8">
         <div className="motion-enter space-y-5">
