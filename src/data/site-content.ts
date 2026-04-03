@@ -19,6 +19,11 @@ export type LocationPricesByGender = {
   heren: PriceSection[];
 };
 
+/** Slider items between price lists and the map; `src` may be `assetPath(...)` or an absolute media URL. */
+export type LocationCarouselMedia =
+  | { kind: "image"; src: string; alt: string; objectPosition?: string }
+  | { kind: "video"; src: string; description: string };
+
 export type LocationData = {
   slug: "amsterdam-oost" | "amsterdam-west" | "zaandam";
   name: string;
@@ -34,6 +39,8 @@ export type LocationData = {
     src: string;
     alt: string;
   }>;
+  /** Same order as on kapsalontnd.nl for that location (Amsterdam Molukkenstraat → oost; zandaam-2 → Zaandam). */
+  carouselMedia: LocationCarouselMedia[];
   highlights: string[];
   pricesByGender: LocationPricesByGender;
 };
@@ -220,6 +227,104 @@ const pricesHerenWest: PriceSection[] = [
   },
 ];
 
+/** Media URLs from kapsalontnd.nl WordPress uploads (Amsterdam / Zaandam legacy pages). */
+const wp = "https://kapsalontnd.nl/wp-content/uploads";
+
+/** Same sequence as the slider on https://kapsalontnd.nl/amsterdam/ (Molukkenstraat → Amsterdam - Oost). */
+const carouselMediaAmsterdamOost: LocationCarouselMedia[] = [
+  {
+    kind: "video",
+    src: `${wp}/2023/05/WhatsApp-Video-2023-05-15-at-13.35.01.mp4`,
+    description: "Impressie van de salon op de Amsterdam-pagina van Kapsalon TND.",
+  },
+  {
+    kind: "image",
+    src: `${wp}/2023/05/WhatsApp-Image-2023-05-15-at-13.12.58.jpeg`,
+    alt: "Kapsalon TND Amsterdam - Oost.",
+  },
+  {
+    kind: "image",
+    src: `${wp}/2023/05/WhatsApp-Image-2023-05-15-at-13.09.58-533x1024.jpeg`,
+    alt: "Kapsalon TND Amsterdam - Oost.",
+    objectPosition: "object-[center_25%]",
+  },
+  {
+    kind: "image",
+    src: `${wp}/2023/05/WhatsApp-Image-2023-05-15-at-13.09.59-783x1024.jpeg`,
+    alt: "Kapsalon TND Amsterdam - Oost.",
+    objectPosition: "object-[center_20%]",
+  },
+  {
+    kind: "image",
+    src: `${wp}/2023/05/WhatsApp-Image-2023-05-15-at-13.09.59-1-481x1024.jpeg`,
+    alt: "Kapsalon TND Amsterdam - Oost.",
+    objectPosition: "object-[center_22%]",
+  },
+  {
+    kind: "image",
+    src: `${wp}/2022/06/WhatsApp-Image-2022-06-13-at-6.23.01-PM.jpeg`,
+    alt: "Kapsalon TND Amsterdam - Oost.",
+  },
+
+];
+
+/** Same sequence as the slider on https://kapsalontnd.nl/zandaam-2/ (Zaandam). */
+const carouselMediaZaandam: LocationCarouselMedia[] = [
+  {
+    kind: "video",
+    src: `${wp}/2023/05/WhatsApp-Video-2023-05-15-at-13.35.01.mp4`,
+    description: "Impressie van de salon op de Zaandam-pagina van Kapsalon TND.",
+  },
+  {
+    kind: "video",
+    src: `${wp}/2024/03/WhatsApp-Video-2024-03-02-at-15.41.05.mp4`,
+    description: "Tweede video-impressie van Kapsalon TND Zaandam.",
+  },
+  {
+    kind: "image",
+    src: `${wp}/2023/05/WhatsApp-Image-2023-05-15-at-13.09.59-783x1024.jpeg`,
+    alt: "Kapsalon TND Zaandam.",
+    objectPosition: "object-[center_20%]",
+  },
+  {
+    kind: "image",
+    src: `${wp}/2023/05/WhatsApp-Image-2023-05-15-at-13.09.59-1-481x1024.jpeg`,
+    alt: "Kapsalon TND Zaandam.",
+    objectPosition: "object-[center_22%]",
+  },
+  {
+    kind: "image",
+    src: `${wp}/2024/03/WhatsApp-Image-2024-03-02-at-14.23.27-1.jpeg`,
+    alt: "Kapsalon TND Zaandam.",
+  },
+  {
+    kind: "image",
+    src: `${wp}/2024/03/WhatsApp-Image-2024-03-02-at-16.01.26-1.jpeg`,
+    alt: "Kapsalon TND Zaandam.",
+  },
+];
+
+const carouselMediaAmsterdamWest: LocationCarouselMedia[] = [
+  {
+    kind: "image",
+    src: assetPath("images/amsterdam-west/carousel-west-stations.png"),
+    alt: "Interieur Kapsalon TND Amsterdam - West met hexagonale plafondverlichting en gouden spiegels.",
+    objectPosition: "object-[center_35%]",
+  },
+  {
+    kind: "image",
+    src: assetPath("images/amsterdam-west/carousel-west-interior.png"),
+    alt: "Blik vanaf de ingang in de salon Amsterdam - West met wachtbank en werkplekken.",
+    objectPosition: "object-[center_40%]",
+  },
+  {
+    kind: "image",
+    src: assetPath("images/amsterdam-west/carousel-west-storefront.png"),
+    alt: "Gevel en entree TND3 Kapsalon aan de Kinkerstraat, Amsterdam - West.",
+    objectPosition: "object-[center_30%]",
+  },
+];
+
 export const locations: LocationData[] = [
   {
     slug: "amsterdam-oost",
@@ -240,6 +345,7 @@ export const locations: LocationData[] = [
         alt: "Interieur van Kapsalon TND Amsterdam - Oost.",
       },
     ],
+    carouselMedia: carouselMediaAmsterdamOost,
     highlights: [
       "Knippen voor dames en heren",
       "Waxen, epileren en gezichtsverzorging",
@@ -269,6 +375,7 @@ export const locations: LocationData[] = [
         alt: "Interieur van Kapsalon TND Amsterdam - West.",
       },
     ],
+    carouselMedia: carouselMediaAmsterdamWest,
     highlights: [
       "Knippen voor dames en heren",
       "Waxen, epileren en gezichtsverzorging",
@@ -298,6 +405,7 @@ export const locations: LocationData[] = [
         alt: "Interieur van Kapsalon TND Zaandam.",
       },
     ],
+    carouselMedia: carouselMediaZaandam,
     highlights: [
       "Knippen, baard, styling en wassen",
       "Beauty, extensions en kleur op aanvraag",

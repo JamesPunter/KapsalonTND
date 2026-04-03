@@ -1,5 +1,7 @@
-import { ArrowUpRight, MapPin, Phone } from "lucide-react";
+import { useCallback, useRef } from "react";
+import { ArrowUpRight, ChevronLeft, ChevronRight, MapPin, Phone } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import { type LocationData } from "@/data/site-content";
 import { cn } from "@/lib/utils";
 
@@ -114,6 +116,112 @@ function LocationPriceBlocks({ location }: LocationPageProps) {
   );
 }
 
+const carouselSlideClass =
+  "gallery-item motion-enter motion-lift w-[min(20rem,100%)] shrink-0 snap-center overflow-hidden rounded-xl sm:w-[min(20rem,85%)] sm:snap-start";
+
+const carouselVisualClass =
+  "motion-media h-64 w-full rounded-xl object-cover sm:h-72 lg:h-80";
+
+function LocationImageCarousel({ location }: LocationPageProps) {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const items = location.carouselMedia;
+
+  const scrollGallery = useCallback((direction: -1 | 1) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const slide = el.querySelector<HTMLElement>("[data-gallery-slide]");
+    const gapPx = Number.parseFloat(getComputedStyle(el).gap) || 16;
+    const step = (slide?.offsetWidth ?? el.clientWidth * 0.82) + gapPx;
+    el.scrollBy({ left: direction * step, behavior: "smooth" });
+  }, []);
+
+  if (items.length === 0) {
+    return null;
+  }
+
+  return (
+    <section
+      aria-label="Impressie van deze locatie"
+      className="mx-auto w-full min-w-0 max-w-5xl py-10 sm:py-12"
+    >
+      <div className="flex min-w-0 items-stretch gap-1.5 sm:gap-3">
+        <div className="flex shrink-0 items-center">
+          <Button
+            aria-label="Vorige foto of video"
+            className={cn(
+              "size-9 rounded-md border border-navy/15 bg-transparent text-navy sm:size-10",
+              "transition-[color,background-color,border-color]",
+              "hover:border-navy/30 hover:bg-navy/[0.06]",
+              "active:!translate-y-0",
+            )}
+            onClick={() => scrollGallery(-1)}
+            size="icon"
+            type="button"
+            variant="outline"
+          >
+            <ChevronLeft className="size-5" />
+          </Button>
+        </div>
+
+        <div
+          ref={scrollerRef}
+          className={cn(
+            "flex min-h-64 min-w-0 flex-1 gap-3 overflow-x-auto overscroll-x-contain scroll-smooth py-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-4",
+            "snap-x snap-mandatory scroll-px-1 sm:scroll-px-2",
+            "[&::-webkit-scrollbar]:hidden",
+          )}
+        >
+          {items.map((item, index) => (
+            <div
+              key={`${item.kind}-${item.src}-${index}`}
+              className={carouselSlideClass}
+              data-gallery-slide
+            >
+              {item.kind === "image" ? (
+                <img
+                  alt={item.alt}
+                  className={cn(carouselVisualClass, item.objectPosition)}
+                  decoding="async"
+                  src={item.src}
+                />
+              ) : (
+                <video
+                  aria-label={item.description}
+                  className={carouselVisualClass}
+                  controls
+                  loop
+                  playsInline
+                  preload="metadata"
+                >
+                  <source src={item.src} type="video/mp4" />
+                </video>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="flex shrink-0 items-center">
+          <Button
+            aria-label="Volgende foto of video"
+            className={cn(
+              "size-9 rounded-md border border-navy/15 bg-transparent text-navy sm:size-10",
+              "transition-[color,background-color,border-color]",
+              "hover:border-navy/30 hover:bg-navy/[0.06]",
+              "active:!translate-y-0",
+            )}
+            onClick={() => scrollGallery(1)}
+            size="icon"
+            type="button"
+            variant="outline"
+          >
+            <ChevronRight className="size-5" />
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function LocationMapSection({ location }: LocationPageProps) {
   const headingId = `locatie-kaart-${location.slug}`;
 
@@ -218,6 +326,8 @@ export function LocationPage({ location }: LocationPageProps) {
       </section>
 
       <LocationPriceBlocks location={location} />
+
+      <LocationImageCarousel location={location} />
 
       <LocationMapSection location={location} />
     </div>
