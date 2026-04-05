@@ -1,4 +1,5 @@
 [build]
+  # `prebuild` runs `sync:content` (Sheets API, else public CSV URLs, else content/csv — see content-templates/README.md).
   command = "npm run build"
   publish = "dist"
 

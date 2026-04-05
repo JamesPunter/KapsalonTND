@@ -5,8 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "npm run sync:content",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sync:content": "node scripts/sync-content.mjs",
+    "seed:csv": "node scripts/seed-csv.mjs"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.2.1",
@@ -14,6 +17,8 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^4.3.0",
+    "csv-parse": "^6.2.1",
+    "googleapis": "^171.4.0",
     "tailwindcss": "^4.2.1",
     "typescript": "~5.9.3",
     "vite": "^7.3.1"

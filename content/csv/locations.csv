@@ -1,0 +1,4 @@
+slug,name,headline,address,phoneDisplay,phoneHref,whatsappHref,mapHref,heroImage
+amsterdam-oost,Amsterdam - Oost,"Molukkenstraat 35H, 1095 AT Amsterdam","Molukkenstraat 35H, 1095 AT Amsterdam",+31 622288480,tel:+31622288480,https://wa.me/31622288480,"https://www.google.com/maps/search/?api=1&query=Molukkenstraat+35H,+1095+AT+Amsterdam",/images/amsterdam-oost/oostinterior.jpeg
+amsterdam-west,Amsterdam - West,"Kinkerstraat 294H, 1053 GC Amsterdam","Kinkerstraat 294H, 1053 GC Amsterdam",+31 622288480,tel:+31622288480,https://wa.me/31622288480,"https://www.google.com/maps/search/?api=1&query=Kinkerstraat+294H,+1053+GC+Amsterdam",/images/amsterdam-west/westinterior.jpeg
+zaandam,Zaandam,"Westzijde 54, 1506 EG Zaandam","Westzijde 54, 1506 EG Zaandam",+31 645000009,tel:+31645000009,https://wa.me/31645000009,"https://www.google.com/maps/search/?api=1&query=Westzijde+54,+1506+EG+Zaandam",/images/zaandam/zaandaminterior.jpeg

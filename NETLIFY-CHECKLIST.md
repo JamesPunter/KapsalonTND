@@ -14,6 +14,7 @@ Use this checklist before every deployment.
 - [ ] Build output directory is confirmed (`dist` for Vite)
 - [ ] Lockfile is committed (`package-lock.json` / `pnpm-lock.yaml` / `yarn.lock`)
 - [ ] Required environment variables are set correctly for production
+- [ ] Optional spreadsheet sync (see [content-templates/README.md](content-templates/README.md)): either **API** (`GOOGLE_SHEET_ID` + `GOOGLE_SERVICE_ACCOUNT_JSON`) or **public CSV** (all five `GOOGLE_SHEET_PUBLIC_CSV_*` URLs); if unset, build uses committed `content/csv/`
 
 ## C. SPA routing safety (React Router / Vue Router / etc.)
 

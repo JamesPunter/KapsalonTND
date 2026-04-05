@@ -1,0 +1,115 @@
+location,gender,section,section_description,service,price,sort_order
+amsterdam-oost,dames,Haar & styling,,Dames knippen,€30,10
+amsterdam-oost,dames,Haar & styling,,Vlechten (dames & heren),v.a. €40,20
+amsterdam-oost,dames,Haar & styling,,Föhnen (alle modellen),v.a. €30,30
+amsterdam-oost,dames,Haar & styling,,Haarstyling & kapsels,v.a. €50,40
+amsterdam-oost,dames,Haar & styling,,Haarmasker,€10,50
+amsterdam-oost,dames,Haar & styling,,Proteïnebehandeling (1 jaar effect),v.a. €50,60
+amsterdam-oost,dames,Haar & styling,,Haar verven,Op aanvraag,70
+amsterdam-oost,dames,Haar & styling,,Highlights / mèches,Op aanvraag,80
+amsterdam-oost,dames,Make-up,,Dag make-up,v.a. €30,90
+amsterdam-oost,dames,Make-up,,Avond / feest make-up,v.a. €50,100
+amsterdam-oost,dames,Wimpers & wenkbrauwen,,Wimperextensions,v.a. €40,110
+amsterdam-oost,dames,Wimpers & wenkbrauwen,,Lash lifting,€30,120
+amsterdam-oost,dames,Wimpers & wenkbrauwen,,Brow lifting,€30,130
+amsterdam-oost,dames,Wimpers & wenkbrauwen,,Wenkbrauwen,€20,140
+amsterdam-oost,dames,Nagels & pedicure,,Gelnagels & extensions,v.a. €30,150
+amsterdam-oost,dames,Nagels & pedicure,,Pedicure met gel,v.a. €30,160
+amsterdam-oost,dames,Nagels & pedicure,,Complete voetverzorging (incl. scrub),v.a. €40,170
+amsterdam-oost,dames,Gezichtsverzorging,,Gezicht reinigen (wax of draad),v.a. €30,180
+amsterdam-oost,dames,Gezichtsverzorging,,Dieptereiniging + masker + gezichtsmassage,€40,190
+amsterdam-oost,dames,Massage,,Relax Normal — 30 min / 1 uur,€45 / €55,200
+amsterdam-oost,dames,Massage,,Medical Hard — 30 min / 1 uur,€45 / €65,210
+amsterdam-oost,dames,Massage,,Speciaal Royal — 1 uur,€85,220
+amsterdam-oost,dames,Massage,,Hoofdmassage,€15,230
+amsterdam-west,dames,Haar & styling,,Dames knippen,€30,10
+amsterdam-west,dames,Haar & styling,,Vlechten (dames & heren),v.a. €40,20
+amsterdam-west,dames,Haar & styling,,Föhnen (alle modellen),v.a. €30,30
+amsterdam-west,dames,Haar & styling,,Haarstyling & kapsels,v.a. €50,40
+amsterdam-west,dames,Haar & styling,,Haarmasker,€10,50
+amsterdam-west,dames,Haar & styling,,Proteïnebehandeling (1 jaar effect),v.a. €50,60
+amsterdam-west,dames,Haar & styling,,Haar verven,Op aanvraag,70
+amsterdam-west,dames,Haar & styling,,Highlights / mèches,Op aanvraag,80
+amsterdam-west,dames,Make-up,,Dag make-up,v.a. €30,90
+amsterdam-west,dames,Make-up,,Avond / feest make-up,v.a. €50,100
+amsterdam-west,dames,Wimpers & wenkbrauwen,,Wimperextensions,v.a. €40,110
+amsterdam-west,dames,Wimpers & wenkbrauwen,,Lash lifting,€30,120
+amsterdam-west,dames,Wimpers & wenkbrauwen,,Brow lifting,€30,130
+amsterdam-west,dames,Wimpers & wenkbrauwen,,Wenkbrauwen,€20,140
+amsterdam-west,dames,Nagels & pedicure,,Gelnagels & extensions,v.a. €30,150
+amsterdam-west,dames,Nagels & pedicure,,Pedicure met gel,v.a. €30,160
+amsterdam-west,dames,Nagels & pedicure,,Complete voetverzorging (incl. scrub),v.a. €40,170
+amsterdam-west,dames,Gezichtsverzorging,,Gezicht reinigen (wax of draad),v.a. €30,180
+amsterdam-west,dames,Gezichtsverzorging,,Dieptereiniging + masker + gezichtsmassage,€40,190
+amsterdam-west,dames,Massage,,Relax Normal — 30 min / 1 uur,€45 / €55,200
+amsterdam-west,dames,Massage,,Medical Hard — 30 min / 1 uur,€45 / €65,210
+amsterdam-west,dames,Massage,,Speciaal Royal — 1 uur,€85,220
+amsterdam-west,dames,Massage,,Hoofdmassage,€15,230
+zaandam,dames,Haar & styling,,Dames knippen,€30,10
+zaandam,dames,Haar & styling,,Vlechten (dames & heren),v.a. €40,20
+zaandam,dames,Haar & styling,,Föhnen (alle modellen),v.a. €30,30
+zaandam,dames,Haar & styling,,Haarstyling & kapsels,v.a. €50,40
+zaandam,dames,Haar & styling,,Haarmasker,€10,50
+zaandam,dames,Haar & styling,,Proteïnebehandeling (1 jaar effect),v.a. €50,60
+zaandam,dames,Haar & styling,,Haar verven,Op aanvraag,70
+zaandam,dames,Haar & styling,,Highlights / mèches,Op aanvraag,80
+zaandam,dames,Make-up,,Dag make-up,v.a. €30,90
+zaandam,dames,Make-up,,Avond / feest make-up,v.a. €50,100
+zaandam,dames,Wimpers & wenkbrauwen,,Wimperextensions,v.a. €40,110
+zaandam,dames,Wimpers & wenkbrauwen,,Lash lifting,€30,120
+zaandam,dames,Wimpers & wenkbrauwen,,Brow lifting,€30,130
+zaandam,dames,Wimpers & wenkbrauwen,,Wenkbrauwen,€20,140
+zaandam,dames,Nagels & pedicure,,Gelnagels & extensions,v.a. €30,150
+zaandam,dames,Nagels & pedicure,,Pedicure met gel,v.a. €30,160
+zaandam,dames,Nagels & pedicure,,Complete voetverzorging (incl. scrub),v.a. €40,170
+zaandam,dames,Gezichtsverzorging,,Gezicht reinigen (wax of draad),v.a. €30,180
+zaandam,dames,Gezichtsverzorging,,Dieptereiniging + masker + gezichtsmassage,€40,190
+zaandam,dames,Massage,,Relax Normal — 30 min / 1 uur,€45 / €55,200
+zaandam,dames,Massage,,Medical Hard — 30 min / 1 uur,€45 / €65,210
+zaandam,dames,Massage,,Speciaal Royal — 1 uur,€85,220
+zaandam,dames,Massage,,Hoofdmassage,€15,230
+amsterdam-oost,heren,Haar & baard,,Knippen,€15,10
+zaandam,heren,Haar & baard,,Knippen,€15,10
+amsterdam-oost,heren,Haar & baard,,Vlechten (dames & heren),v.a. €40,20
+zaandam,heren,Haar & baard,,Vlechten (dames & heren),v.a. €40,20
+amsterdam-oost,heren,Haar & baard,,Baard,€15,30
+zaandam,heren,Haar & baard,,Baard,€15,30
+amsterdam-oost,heren,Haar & baard,,Haar wassen (hamam),€5,40
+zaandam,heren,Haar & baard,,Haar wassen (hamam),€5,40
+amsterdam-oost,heren,Haar & baard,,Wenkbrauwen,€15,50
+zaandam,heren,Haar & baard,,Wenkbrauwen,€15,50
+amsterdam-oost,heren,Haar & baard,,Wangen ontharen,€15,60
+zaandam,heren,Haar & baard,,Wangen ontharen,€15,60
+amsterdam-oost,heren,Haar & baard,,Haar verven,€25,70
+zaandam,heren,Haar & baard,,Haar verven,€25,70
+amsterdam-oost,heren,Haar & baard,,Baard verven,€15,80
+zaandam,heren,Haar & baard,,Baard verven,€15,80
+amsterdam-oost,heren,Gezichtsverzorging,,Masker + scrub,€30,90
+zaandam,heren,Gezichtsverzorging,,Masker + scrub,€30,90
+amsterdam-oost,heren,Gezichtsverzorging,,Zwart masker,€15,100
+zaandam,heren,Gezichtsverzorging,,Zwart masker,€15,100
+amsterdam-oost,heren,Gezichtsverzorging,,Scrub,€15,110
+zaandam,heren,Gezichtsverzorging,,Scrub,€15,110
+amsterdam-oost,heren,Massage,,Relax Normal — 30 min / 1 uur,€45 / €55,120
+zaandam,heren,Massage,,Relax Normal — 30 min / 1 uur,€45 / €55,120
+amsterdam-oost,heren,Massage,,Medical Hard — 30 min / 1 uur,€45 / €65,130
+zaandam,heren,Massage,,Medical Hard — 30 min / 1 uur,€45 / €65,130
+amsterdam-oost,heren,Massage,,Speciaal Royal — 1 uur,€85,140
+zaandam,heren,Massage,,Speciaal Royal — 1 uur,€85,140
+amsterdam-oost,heren,Massage,,Hoofdmassage,€15,150
+zaandam,heren,Massage,,Hoofdmassage,€15,150
+amsterdam-west,heren,Haar & baard,,Knippen,€12,10
+amsterdam-west,heren,Haar & baard,,Vlechten (dames & heren),v.a. €40,20
+amsterdam-west,heren,Haar & baard,,Baard,€15,30
+amsterdam-west,heren,Haar & baard,,Haar wassen (hamam),€5,40
+amsterdam-west,heren,Haar & baard,,Wenkbrauwen,€15,50
+amsterdam-west,heren,Haar & baard,,Wangen ontharen,€15,60
+amsterdam-west,heren,Haar & baard,,Haar verven,€25,70
+amsterdam-west,heren,Haar & baard,,Baard verven,€15,80
+amsterdam-west,heren,Gezichtsverzorging,,Masker + scrub,€30,90
+amsterdam-west,heren,Gezichtsverzorging,,Zwart masker,€15,100
+amsterdam-west,heren,Gezichtsverzorging,,Scrub,€15,110
+amsterdam-west,heren,Massage,,Relax Normal — 30 min / 1 uur,€45 / €55,120
+amsterdam-west,heren,Massage,,Medical Hard — 30 min / 1 uur,€45 / €65,130
+amsterdam-west,heren,Massage,,Speciaal Royal — 1 uur,€85,140
+amsterdam-west,heren,Massage,,Hoofdmassage,€15,150
