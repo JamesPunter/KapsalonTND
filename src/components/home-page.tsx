@@ -6,6 +6,7 @@ import {
   homeGallery,
   homeGalleryCarouselPlaceholderCount,
   locations,
+  siteInstagramUrl,
 } from "@/data/site-content";
 import { cn } from "@/lib/utils";
 import { assetPath } from "@/lib/asset-path";
@@ -85,7 +86,7 @@ export function HomePage() {
                   buttonVariants({ variant: "ghost", size: "lg" }),
                   "rounded-md border border-white/30 bg-white/5 px-4 py-2 text-sm font-normal text-white/90 backdrop-blur-[2px] hover:border-white/45 hover:bg-white/10 hover:text-white",
                 )}
-                href="https://www.instagram.com/kapsalon_tnd/"
+                href={siteInstagramUrl}
                 rel="noreferrer"
                 target="_blank"
               >

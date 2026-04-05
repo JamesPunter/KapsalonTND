@@ -7,6 +7,7 @@ import {
   locations,
   locationsBySlug,
   navigationItems,
+  siteInstagramUrl,
 } from "@/data/site-content";
 import { assetPath } from "@/lib/asset-path";
 import { cn } from "@/lib/utils";
@@ -172,7 +173,6 @@ function SiteHeader({ isHomePage, isVisible }: SiteHeaderProps) {
   );
 }
 
-const INSTAGRAM_URL = "https://www.instagram.com/kapsalon_tnd/";
 
 const GOLDEN_COIL_ICON_SRC = assetPath("images/brand/favicon-coil-dark.png");
 
@@ -193,7 +193,7 @@ function SiteFooter() {
             </p>
             <a
               className="motion-lift mt-4 inline-flex items-center gap-2 text-sm text-stone-300 transition-colors hover:text-white"
-              href={INSTAGRAM_URL}
+              href={siteInstagramUrl}
               rel="noreferrer"
               target="_blank"
             >
