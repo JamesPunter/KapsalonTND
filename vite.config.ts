@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 import yaml from "@modyfi/vite-plugin-yaml";
 
 export default defineConfig(({ command }) => ({
-  // Default to root path (Netlify). Override for project-subpath deploys (e.g. GitHub Pages).
+  // Default to root path (Versio). Override for project-subpath deploys (e.g. GitHub Pages).
   base: command === "build" ? process.env.VITE_BASE_PATH ?? "/" : "/",
   plugins: [react(), tailwindcss(), yaml()],
   resolve: {
