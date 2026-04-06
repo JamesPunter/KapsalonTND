@@ -21,10 +21,8 @@ type RawLocation = {
   address: string;
   phone: string;
   whatsapp: string;
-  summary: string;
   heroImage: string;
   gallery: RawGalleryItem[];
-  highlights: string[];
   carousel: RawCarouselItem[];
   prices: {
     dames: RawPriceSection[];
@@ -70,7 +68,6 @@ export type LocationData = {
   slug: "amsterdam-oost" | "amsterdam-west" | "zaandam";
   name: string;
   headline: string;
-  summary: string;
   address: string;
   phoneDisplay: string;
   phoneHref: string;
@@ -79,7 +76,6 @@ export type LocationData = {
   heroImage: string;
   gallery: Array<{ src: string; alt: string }>;
   carouselMedia: LocationCarouselMedia[];
-  highlights: string[];
   pricesByGender: LocationPricesByGender;
 };
 
@@ -125,7 +121,6 @@ function mapLocation(
     slug,
     name: raw.name,
     headline: raw.address,
-    summary: raw.summary,
     address: raw.address,
     phoneDisplay: raw.phone,
     phoneHref: `tel:+${raw.whatsapp}`,
@@ -137,7 +132,6 @@ function mapLocation(
       alt: g.alt,
     })),
     carouselMedia: mapCarousel(raw.carousel),
-    highlights: raw.highlights,
     pricesByGender: {
       dames: raw.prices.dames,
       heren: raw.prices.heren,

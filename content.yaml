@@ -49,7 +49,7 @@ home:
 # LOCATIES
 # -------------------------------------------------------------
 # Elke locatie heeft: contactgegevens, hero-afbeelding,
-# galerij, carousel, highlights en een prijslijst.
+# galerij, carousel en een prijslijst.
 # -------------------------------------------------------------
 
 locations:
@@ -65,8 +65,6 @@ locations:
     phone: "+31 622288480"
     # WhatsApp-nummer (alleen cijfers, geen +, geen spaties)
     whatsapp: "31622288480"
-    # Korte beschrijving van de locatie (zichtbaar op de locatiepagina)
-    summary: Uw beschrijving hier
     # Grote afbeelding bovenaan de locatiepagina
     heroImage: images/amsterdam-oost/oostinterior.jpeg
 
@@ -74,12 +72,6 @@ locations:
     gallery:
       - src: images/amsterdam-oost/oostinterior.jpeg
         alt: Interieur van Kapsalon TND Amsterdam - Oost.
-
-    # Kenmerken / bulletpoints op de locatiepagina
-    highlights:
-      - Knippen voor dames en heren
-      - Waxen, epileren en gezichtsverzorging
-      - Keratine, verven en styling
 
     # Carousel met foto's en video's (slider)
     # kind: image → gebruik src + alt
@@ -217,17 +209,11 @@ locations:
     address: "Kinkerstraat 294H, 1053 GC Amsterdam"
     phone: "+31 622288480"
     whatsapp: "31622288480"
-    summary: Uw beschrijving hier
     heroImage: images/amsterdam-west/westinterior.jpeg
 
     gallery:
       - src: images/amsterdam-west/westinterior.jpeg
         alt: Interieur van Kapsalon TND Amsterdam - West.
-
-    highlights:
-      - Knippen voor dames en heren
-      - Waxen, epileren en gezichtsverzorging
-      - Keratine, verven en styling
 
     carousel:
       - kind: image
@@ -348,17 +334,11 @@ locations:
     address: "Westzijde 54, 1506 EG Zaandam"
     phone: "+31 645000009"
     whatsapp: "31645000009"
-    summary: Uw beschrijving hier
     heroImage: images/zaandam/zaandaminterior.jpeg
 
     gallery:
       - src: images/zaandam/zaandaminterior.jpeg
         alt: Interieur van Kapsalon TND Zaandam.
-
-    highlights:
-      - Knippen, baard, styling en wassen
-      - Beauty, extensions en kleur op aanvraag
-      - Massage en aanvullende behandelingen
 
     carousel:
       - kind: video
