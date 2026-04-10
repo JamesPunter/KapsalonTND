@@ -3,6 +3,11 @@ import { ArrowUpRight, ChevronLeft, ChevronRight, MapPin, Phone } from "lucide-r
 
 import { Button } from "@/components/ui/button";
 import { type LocationData } from "@/data/site-content";
+import {
+  galleryCarouselScrollerClassName,
+  galleryCarouselSlideClassName,
+  galleryCarouselVisualClassName,
+} from "@/lib/gallery-carousel-layout";
 import { cn } from "@/lib/utils";
 
 function googleMapsEmbedSrc(address: string) {
@@ -116,12 +121,6 @@ function LocationPriceBlocks({ location }: LocationPageProps) {
   );
 }
 
-const carouselSlideClass =
-  "gallery-item motion-enter motion-lift w-[min(20rem,100%)] shrink-0 snap-center overflow-hidden rounded-xl sm:w-[min(20rem,85%)] sm:snap-start";
-
-const carouselVisualClass =
-  "motion-media h-64 w-full rounded-xl object-cover sm:h-72 lg:h-80";
-
 function LocationImageCarousel({ location }: LocationPageProps) {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const items = location.carouselMedia;
@@ -163,31 +162,24 @@ function LocationImageCarousel({ location }: LocationPageProps) {
           </Button>
         </div>
 
-        <div
-          ref={scrollerRef}
-          className={cn(
-            "flex min-h-64 min-w-0 flex-1 gap-3 overflow-x-auto overscroll-x-contain scroll-smooth py-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-4",
-            "snap-x snap-mandatory scroll-px-1 sm:scroll-px-2",
-            "[&::-webkit-scrollbar]:hidden",
-          )}
-        >
+        <div ref={scrollerRef} className={galleryCarouselScrollerClassName}>
           {items.map((item, index) => (
             <div
               key={`${item.kind}-${item.src}-${index}`}
-              className={carouselSlideClass}
+              className={galleryCarouselSlideClassName}
               data-gallery-slide
             >
               {item.kind === "image" ? (
                 <img
                   alt={item.alt}
-                  className={cn(carouselVisualClass, item.objectPosition)}
+                  className={cn(galleryCarouselVisualClassName, item.objectPosition)}
                   decoding="async"
                   src={item.src}
                 />
               ) : (
                 <video
                   aria-label={item.description}
-                  className={carouselVisualClass}
+                  className={galleryCarouselVisualClassName}
                   controls
                   loop
                   playsInline
@@ -261,10 +253,6 @@ function LocationMapSection({ location }: LocationPageProps) {
 }
 
 export function LocationPage({ location }: LocationPageProps) {
-  const galleryExtras = location.gallery.filter(
-    (item) => item.src !== location.heroImage,
-  );
-
   return (
     <div className="mx-auto flex min-w-0 max-w-7xl flex-col gap-14 px-4 py-8 pb-28 sm:px-6 sm:py-10 sm:pb-32 lg:px-8 lg:pb-40">
       <section className="flex w-full min-w-0 flex-col gap-6">
@@ -305,24 +293,6 @@ export function LocationPage({ location }: LocationPageProps) {
             </div>
           </div>
         </div>
-
-        {galleryExtras.length > 0 ? (
-          <div className="mx-auto grid w-full max-w-5xl gap-4 sm:grid-cols-2 sm:gap-5">
-            {galleryExtras.map((item) => (
-              <div
-                className="motion-enter overflow-hidden rounded-xl shadow-md ring-1 ring-navy/10"
-                key={item.src}
-              >
-                <img
-                  alt={item.alt}
-                  className="aspect-[4/3] size-full object-cover"
-                  decoding="async"
-                  src={item.src}
-                />
-              </div>
-            ))}
-          </div>
-        ) : null}
       </section>
 
       <LocationPriceBlocks location={location} />

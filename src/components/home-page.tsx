@@ -8,6 +8,11 @@ import {
   locations,
   siteInstagramUrl,
 } from "@/data/site-content";
+import {
+  galleryCarouselScrollerClassName,
+  galleryCarouselSlideClassName,
+  galleryCarouselVisualClassName,
+} from "@/lib/gallery-carousel-layout";
 import { cn } from "@/lib/utils";
 import { assetPath } from "@/lib/asset-path";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -122,7 +127,7 @@ export function HomePage() {
       {/* Gallery carousel */}
       <section
         aria-label="Salonwerk en resultaten"
-        className="mx-auto max-w-7xl min-w-0 px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
+        className="mx-auto w-full min-w-0 max-w-5xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8"
       >
         <div className="flex min-w-0 items-stretch gap-1.5 sm:gap-3">
           <div className="flex shrink-0 items-center">
@@ -143,19 +148,12 @@ export function HomePage() {
             </Button>
           </div>
 
-          <div
-            ref={galleryScrollerRef}
-            className={cn(
-              "flex min-h-0 min-w-0 flex-1 gap-3 overflow-x-auto overscroll-x-contain scroll-smooth py-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-4",
-              "snap-x snap-mandatory scroll-px-1 sm:scroll-px-2",
-              "[&::-webkit-scrollbar]:hidden",
-            )}
-          >
-            {homeGallery.slice(1).map((image, index) => (
+          <div ref={galleryScrollerRef} className={galleryCarouselScrollerClassName}>
+            {homeGallery.map((image, index) => (
               <div
                 key={image.src}
                 className={cn(
-                  "gallery-item group motion-enter motion-lift w-[min(20rem,100%)] shrink-0 snap-center overflow-hidden rounded-xl sm:w-[min(20rem,85%)] sm:snap-start",
+                  galleryCarouselSlideClassName,
                   galleryDelayClasses[index] ?? "motion-delay-1",
                 )}
                 data-gallery-slide
@@ -163,10 +161,11 @@ export function HomePage() {
                 <img
                   alt={image.alt}
                   className={cn(
-                    "motion-media h-64 w-full rounded-xl object-cover sm:h-72 lg:h-80",
+                    galleryCarouselVisualClassName,
                     image.objectPosition ??
                       galleryImagePositions[index % galleryImagePositions.length],
                   )}
+                  decoding="async"
                   src={image.src}
                 />
               </div>
@@ -175,8 +174,9 @@ export function HomePage() {
               <div
                 key={`gallery-placeholder-${i}`}
                 className={cn(
-                  "gallery-item flex h-64 w-[min(20rem,100%)] shrink-0 snap-center flex-col items-center justify-center gap-2 overflow-hidden rounded-xl border border-dashed border-foreground/20 bg-foreground/[0.04] text-center sm:h-72 sm:w-[min(20rem,85%)] sm:snap-start lg:h-80",
-                  galleryDelayClasses[homeGallery.slice(1).length + i] ?? "motion-delay-1",
+                  galleryCarouselSlideClassName,
+                  "flex min-h-64 flex-col items-center justify-center gap-2 border border-dashed border-foreground/20 bg-foreground/[0.04] text-center sm:min-h-72 lg:min-h-80",
+                  galleryDelayClasses[homeGallery.length + i] ?? "motion-delay-1",
                 )}
                 data-gallery-slide
               >

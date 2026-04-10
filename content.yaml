@@ -27,12 +27,15 @@ site:
 # Voeg afbeeldingen toe of verwijder ze door regels toe te voegen/verwijderen.
 # src: lokaal pad (in public/images/) of volledige URL
 # alt: beschrijving van de foto (voor toegankelijkheid)
+# objectPosition (optioneel): Tailwind-class voor object-fit uitsnede (zelfde als locatie-carousel).
+#   Voorbeeld: object-[center_42%] → horizontaal midden, verticaal 42%.
 home:
   gallery:
-    - src: images/home/hero-banner.jpeg
+    - src: images/home/WhatsApp-Image-2022-06-13-at-6.33.37-PM-e1655139209446.jpeg
       alt: Kapsalon TND banner met salonbranding en modellen.
     - src: images/home/style-1.jpeg
       alt: Close-up kapselresultaat bij Kapsalon TND.
+      objectPosition: object-[center_42%]
     - src: images/home/image1.jpeg
       alt: Ruim interieur van Kapsalon TND met kappersstations en warme verlichting.
     - src: images/home/style-2.jpeg
@@ -49,7 +52,7 @@ home:
 # LOCATIES
 # -------------------------------------------------------------
 # Elke locatie heeft: contactgegevens, hero-afbeelding,
-# galerij, carousel en een prijslijst.
+# carousel en een prijslijst. Extra foto's alleen in carousel zetten.
 # -------------------------------------------------------------
 
 locations:
@@ -68,7 +71,7 @@ locations:
     # Grote afbeelding bovenaan de locatiepagina
     heroImage: images/amsterdam-oost/oostinterior.jpeg
 
-    # Galerij op de locatiepagina (thumbnail-rij)
+    # Hero (zelfde als eerste carousel-foto kan); overige beelden in carousel hieronder.
     gallery:
       - src: images/amsterdam-oost/oostinterior.jpeg
         alt: Interieur van Kapsalon TND Amsterdam - Oost.
@@ -78,24 +81,17 @@ locations:
     # kind: video → gebruik src + description
     # src mag een lokaal pad zijn (images/...) of een volledige URL
     carousel:
-      - kind: video
-        src: "https://kapsalontnd.nl/wp-content/uploads/2023/05/WhatsApp-Video-2023-05-15-at-13.35.01.mp4"
-        description: Impressie van de salon op de Amsterdam-pagina van Kapsalon TND.
       - kind: image
-        src: "https://kapsalontnd.nl/wp-content/uploads/2023/05/WhatsApp-Image-2023-05-15-at-13.12.58.jpeg"
+        src: images/amsterdam-oost/oostinterior.jpeg
+        alt: Interieur Kapsalon TND Amsterdam - Oost.
+        objectPosition: object-[center_22%]
+      - kind: image
+        src: images/amsterdam-oost/WhatsApp-Image-2023-05-15-at-13.12.58.jpeg
         alt: Kapsalon TND Amsterdam - Oost.
       - kind: image
-        src: "https://kapsalontnd.nl/wp-content/uploads/2023/05/WhatsApp-Image-2023-05-15-at-13.09.58-533x1024.jpeg"
-        alt: Kapsalon TND Amsterdam - Oost.
-      - kind: image
-        src: "https://kapsalontnd.nl/wp-content/uploads/2023/05/WhatsApp-Image-2023-05-15-at-13.09.59-783x1024.jpeg"
-        alt: Kapsalon TND Amsterdam - Oost.
-      - kind: image
-        src: "https://kapsalontnd.nl/wp-content/uploads/2023/05/WhatsApp-Image-2023-05-15-at-13.09.59-1-481x1024.jpeg"
-        alt: Kapsalon TND Amsterdam - Oost.
-      - kind: image
-        src: "https://kapsalontnd.nl/wp-content/uploads/2022/06/WhatsApp-Image-2022-06-13-at-6.23.01-PM.jpeg"
-        alt: Kapsalon TND Amsterdam - Oost.
+        src: images/home/style-2.jpeg
+        alt: Haarstylingsresultaat in de salon, Amsterdam - Oost.
+        objectPosition: object-[center_42%]
 
     # ---------------------------------------------------------
     # PRIJZEN AMSTERDAM - OOST
@@ -342,23 +338,18 @@ locations:
 
     carousel:
       - kind: video
-        src: "https://kapsalontnd.nl/wp-content/uploads/2023/05/WhatsApp-Video-2023-05-15-at-13.35.01.mp4"
-        description: Impressie van de salon op de Zaandam-pagina van Kapsalon TND.
-      - kind: video
-        src: "https://kapsalontnd.nl/wp-content/uploads/2024/03/WhatsApp-Video-2024-03-02-at-15.41.05.mp4"
-        description: Tweede video-impressie van Kapsalon TND Zaandam.
+        src: images/zaandam/WhatsApp-Video-2024-03-02-at-15.35.40.mp4
+        description: Video-impressie van Kapsalon TND Zaandam.
       - kind: image
-        src: "https://kapsalontnd.nl/wp-content/uploads/2023/05/WhatsApp-Image-2023-05-15-at-13.09.59-783x1024.jpeg"
+        src: images/zaandam/zaandaminterior.jpeg
+        alt: Interieur Kapsalon TND Zaandam.
+        objectPosition: object-[center_30%]
+      - kind: image
+        src: images/zaandam/WhatsApp-Image-2024-03-02-at-14.37.02.jpeg
         alt: Kapsalon TND Zaandam.
       - kind: image
-        src: "https://kapsalontnd.nl/wp-content/uploads/2023/05/WhatsApp-Image-2023-05-15-at-13.09.59-1-481x1024.jpeg"
-        alt: Kapsalon TND Zaandam.
-      - kind: image
-        src: "https://kapsalontnd.nl/wp-content/uploads/2024/03/WhatsApp-Image-2024-03-02-at-14.23.27-1.jpeg"
-        alt: Kapsalon TND Zaandam.
-      - kind: image
-        src: "https://kapsalontnd.nl/wp-content/uploads/2024/03/WhatsApp-Image-2024-03-02-at-16.01.26-1.jpeg"
-        alt: Kapsalon TND Zaandam.
+        src: images/zaandam/WhatsApp-Image-2024-03-02-at-14.46.22.jpeg
+        alt: Salon Westzijde, Zaandam.
 
     prices:
       dames:
