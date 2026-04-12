@@ -1,0 +1,14 @@
+# Netlify reads this on connect — no dashboard overrides required for a standard deploy.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Match .github/workflows/deploy-pages.yml; avoids older default Node on Netlify.
+  NODE_VERSION = "22"
+
+# React Router: real files (e.g. /assets/*) are served first; everything else gets the SPA shell.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
