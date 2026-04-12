@@ -1,4 +1,4 @@
-import { fileURLToPath, URL } from "node:url";
+import path from "node:path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import tailwindcss from "@tailwindcss/vite";
@@ -10,8 +10,10 @@ export default defineConfig(({ command }) => ({
   base: command === "build" ? process.env.VITE_BASE_PATH ?? "/" : "/",
   plugins: [react(), tailwindcss(), yaml()],
   resolve: {
+    // Use cwd, not import.meta.url: Vite may bundle this config so meta.url can point at a temp file
+    // and break @/ resolution on Linux CI (e.g. Netlify) while still working locally.
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "@": path.resolve(process.cwd(), "src"),
     },
   },
 }));
