@@ -25,6 +25,7 @@ const mobileSheetNavItems = [
   { href: "/", label: "Home" },
   { href: "/amsterdam-west", label: "Amsterdam - West" },
   { href: "/amsterdam-oost", label: "Amsterdam - Oost" },
+  { href: "/haarlem", label: "Haarlem" },
   { href: "/zaandam", label: "Zaandam" },
 ] as const;
 
@@ -189,7 +190,7 @@ function SiteFooter() {
               Kapsalon TND
             </h2>
             <p className="mt-3 max-w-xs text-sm leading-6 text-stone-400">
-              Uw kapper in Amsterdam en Zaandam.
+              Uw kapper in Amsterdam, Haarlem en Zaandam.
             </p>
             <a
               className="motion-lift mt-4 inline-flex items-center gap-2 text-sm text-stone-300 transition-colors hover:text-white"
@@ -244,6 +245,12 @@ function SiteFooter() {
               <p className="mt-1">
                 {locationsBySlug["amsterdam-west"].phoneDisplay}
               </p>
+            </div>
+            <div>
+              <p className="text-xs tracking-[0.14em] text-stone-500 uppercase">
+                Haarlem
+              </p>
+              <p className="mt-1">{locationsBySlug.haarlem.phoneDisplay}</p>
             </div>
             <div>
               <p className="text-xs tracking-[0.14em] text-stone-500 uppercase">

@@ -36,6 +36,7 @@ type RawContent = {
   locations: {
     "amsterdam-oost": RawLocation;
     "amsterdam-west": RawLocation;
+    haarlem: RawLocation;
     zaandam: RawLocation;
   };
 };
@@ -65,7 +66,7 @@ export type LocationCarouselMedia =
   | { kind: "video"; src: string; description: string };
 
 export type LocationData = {
-  slug: "amsterdam-oost" | "amsterdam-west" | "zaandam";
+  slug: "amsterdam-oost" | "amsterdam-west" | "haarlem" | "zaandam";
   name: string;
   headline: string;
   address: string;
@@ -163,19 +164,22 @@ export const navigationItems = [
   { href: "/", label: "Home" },
   { href: "/amsterdam-oost", label: "Amsterdam - Oost" },
   { href: "/amsterdam-west", label: "Amsterdam - West" },
+  { href: "/haarlem", label: "Haarlem" },
   { href: "/zaandam", label: "Zaandam" },
 ];
 
 export const locations: LocationData[] = [
   mapLocation("amsterdam-oost", content.locations["amsterdam-oost"]),
   mapLocation("amsterdam-west", content.locations["amsterdam-west"]),
+  mapLocation("haarlem", content.locations.haarlem),
   mapLocation("zaandam", content.locations.zaandam),
 ];
 
 export const locationsBySlug: Record<LocationData["slug"], LocationData> = {
   "amsterdam-oost": locations[0]!,
   "amsterdam-west": locations[1]!,
-  zaandam: locations[2]!,
+  haarlem: locations[2]!,
+  zaandam: locations[3]!,
 };
 
 export const footerSocialLinks = [
@@ -187,6 +191,11 @@ export const footerSocialLinks = [
   {
     label: "WhatsApp Amsterdam - West",
     href: locationsBySlug["amsterdam-west"].whatsappHref,
+    icon: MessageCircleMore,
+  },
+  {
+    label: "WhatsApp Haarlem",
+    href: locationsBySlug.haarlem.whatsappHref,
     icon: MessageCircleMore,
   },
   {

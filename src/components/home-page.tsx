@@ -69,7 +69,7 @@ export function HomePage() {
               />
               <div className="min-w-0 space-y-2 text-center sm:text-left">
                 <p className="text-xs font-medium tracking-[0.28em] text-white/60 uppercase">
-                  Amsterdam & Zaandam
+                  Amsterdam, Haarlem en Zaandam
                 </p>
                 <h1 className="font-display text-4xl leading-[0.95] tracking-[0.08em] text-white uppercase sm:text-6xl lg:text-7xl">
                   Kapsalon TND

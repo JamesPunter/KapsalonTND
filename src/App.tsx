@@ -24,6 +24,10 @@ export function App() {
             }
           />
           <Route
+            path="haarlem"
+            element={<LocationPage location={locationsBySlug.haarlem} />}
+          />
+          <Route
             path="zaandam"
             element={<LocationPage location={locationsBySlug.zaandam} />}
           />
