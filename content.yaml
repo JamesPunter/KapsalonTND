@@ -92,6 +92,9 @@ locations:
         src: images/home/style-2.jpeg
         alt: Haarstylingsresultaat in de salon, Amsterdam - Oost.
         objectPosition: object-[center_42%]
+      - kind: image
+        src: images/amsterdam-oost/oostinterior.jpeg
+        objectPosition: object-[center_22%]
 
     # ---------------------------------------------------------
     # PRIJZEN AMSTERDAM - OOST
