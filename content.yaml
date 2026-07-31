@@ -92,9 +92,7 @@ locations:
         src: images/home/style-2.jpeg
         alt: Haarstylingsresultaat in de salon, Amsterdam - Oost.
         objectPosition: object-[center_42%]
-      - kind: image
-        src: images/amsterdam-oost/oostinterior.jpeg
-        objectPosition: object-[center_22%]
+
 
     # ---------------------------------------------------------
     # PRIJZEN AMSTERDAM - OOST
@@ -106,7 +104,7 @@ locations:
         - title: Haar & styling
           items:
             - service: Dames knippen
-              price: "€35"
+              price: "€30"
             - service: Vlechten (dames & heren)
               price: v.a. €40
             - service: Föhnen (alle modellen)
