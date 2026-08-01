@@ -21,6 +21,7 @@ type RawLocation = {
   address: string;
   phone: string;
   whatsapp: string;
+  booking?: string;
   heroImage: string;
   gallery: RawGalleryItem[];
   carousel: RawCarouselItem[];
@@ -73,6 +74,7 @@ export type LocationData = {
   phoneDisplay: string;
   phoneHref: string;
   whatsappHref: string;
+  bookingHref?: string;
   mapHref: string;
   heroImage: string;
   gallery: Array<{ src: string; alt: string }>;
@@ -126,6 +128,7 @@ function mapLocation(
     phoneDisplay: raw.phone,
     phoneHref: `tel:+${raw.whatsapp}`,
     whatsappHref: `https://wa.me/${raw.whatsapp}`,
+    ...(raw.booking ? { bookingHref: raw.booking } : {}),
     mapHref: `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`,
     heroImage: resolveImageSrc(raw.heroImage),
     gallery: raw.gallery.map((g) => ({

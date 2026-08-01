@@ -68,6 +68,8 @@ locations:
     phone: "+31 622288480"
     # WhatsApp-nummer (alleen cijfers, geen +, geen spaties)
     whatsapp: "31622288480"
+    # Online-boekingslink (Fresha); knop "Maak een afspraak" verschijnt alleen als deze is ingevuld
+    booking: "https://www.fresha.com/book-now/kapsalon-tnd-bkt695ky/services?lid=3128302&share=true&pId=3026798"
     # Grote afbeelding bovenaan de locatiepagina
     heroImage: images/amsterdam-oost/oostinterior.jpeg
 
@@ -456,6 +458,8 @@ locations:
     address: "Westzijde 54, 1506 EG Zaandam"
     phone: "+31 645000009"
     whatsapp: "31645000009"
+    # Online-boekingslink (Fresha); knop "Maak een afspraak" verschijnt alleen als deze is ingevuld
+    booking: "https://www.fresha.com/book-now/kapsalon-tnd-bkt695ky/services?lid=3157989&eid=5489927&share=true&pId=3026798"
     heroImage: images/zaandam/zaandaminterior.jpeg
 
     gallery:

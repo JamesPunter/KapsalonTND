@@ -1,5 +1,5 @@
 import { useCallback, useRef } from "react";
-import { ArrowUpRight, ChevronLeft, ChevronRight, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, CalendarCheck, ChevronLeft, ChevronRight, MapPin, Phone } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { type LocationData } from "@/data/site-content";
@@ -58,6 +58,12 @@ function LocationPriceBlocks({ location }: LocationPageProps) {
     "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-navy/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f8f3e8]",
   );
 
+  const bookingCtaClass = cn(
+    "inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-navy bg-navy px-5 py-2 text-sm font-medium text-white transition-[background-color,border-color,color] duration-200",
+    "hover:bg-navy/90 hover:border-navy/90",
+    "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-navy/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f8f3e8]",
+  );
+
   const renderGender = (gender: "dames" | "heren", id: string, label: string) => (
     <section
       className={cn("motion-enter space-y-6", scrollOffsetClass)}
@@ -101,6 +107,17 @@ function LocationPriceBlocks({ location }: LocationPageProps) {
   return (
     <div className="mx-auto flex w-full min-w-0 max-w-5xl flex-col gap-16 border-t border-navy/15 pt-10 sm:pt-12">
       <div className="motion-enter flex flex-wrap justify-center gap-3 sm:gap-4">
+        {location.bookingHref ? (
+          <a
+            className={bookingCtaClass}
+            href={location.bookingHref}
+            rel="noreferrer"
+            target="_blank"
+          >
+            <CalendarCheck aria-hidden className="size-4 shrink-0" strokeWidth={2} />
+            Maak een afspraak
+          </a>
+        ) : null}
         <a className={contactCtaClass} href={location.phoneHref}>
           <Phone aria-hidden className="size-4 shrink-0" strokeWidth={2} />
           Bel ons
