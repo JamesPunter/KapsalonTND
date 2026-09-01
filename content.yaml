@@ -578,7 +578,7 @@ locations:
       - kind: image
         src: images/zaandam-nagels/nagels-wit-pedicure-rood.jpeg
         alt: Witte gelnagels met rode pedicure bij TND Nagels Zaandam.
-        objectPosition: object-[center_45%]
+        objectPosition: object-[center_62%]
       - kind: video
         src: images/zaandam-nagels/video-2.mp4
         description: Video-impressie van het werk bij TND Nagels Zaandam.
