@@ -1,8 +1,9 @@
 import { useCallback, useRef } from "react";
 import { ArrowUpRight, CalendarCheck, ChevronLeft, ChevronRight, MapPin, Phone } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
-import { type LocationData } from "@/data/site-content";
+import { siblingLocation, type LocationData } from "@/data/site-content";
 import {
   galleryCarouselScrollerClassName,
   galleryCarouselSlideClassName,
@@ -64,16 +65,28 @@ function LocationPriceBlocks({ location }: LocationPageProps) {
     "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-navy/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f8f3e8]",
   );
 
+  const genders = (["dames", "heren"] as const).filter(
+    (gender) => (location.pricesByGender[gender]?.length ?? 0) > 0,
+  );
+  // With a single business on the page the "Dames"/"Heren" heading says nothing
+  // the page title does not already say, so it is left out.
+  const showGenderHeadings = genders.length > 1;
+
   const renderGender = (gender: "dames" | "heren", id: string, label: string) => (
     <section
       className={cn("motion-enter space-y-6", scrollOffsetClass)}
       id={id}
+      key={gender}
     >
-      <h2 className="font-display text-2xl tracking-[0.08em] text-navy uppercase sm:text-3xl">
-        {label}
-      </h2>
+      {showGenderHeadings ? (
+        <h2 className="font-display text-2xl tracking-[0.08em] text-navy uppercase sm:text-3xl">
+          {label}
+        </h2>
+      ) : (
+        <h2 className="sr-only">{label}</h2>
+      )}
       <div className="grid gap-10 sm:grid-cols-2 sm:gap-8 lg:gap-12">
-        {location.pricesByGender[gender].map((section) => (
+        {location.pricesByGender[gender]?.map((section) => (
           <div key={`${gender}-${section.title}`} className="space-y-3">
             <h3 className="text-sm font-semibold tracking-[0.12em] text-navy/90 uppercase">
               {section.title}
@@ -132,8 +145,11 @@ function LocationPriceBlocks({ location }: LocationPageProps) {
           Stuur een bericht
         </a>
       </div>
-      {renderGender("dames", "prijzen-dames", "Dames")}
-      {renderGender("heren", "prijzen-heren", "Heren")}
+      {genders.map((gender) =>
+        gender === "dames"
+          ? renderGender("dames", "prijzen-dames", "Dames")
+          : renderGender("heren", "prijzen-heren", "Heren"),
+      )}
     </div>
   );
 }
@@ -199,6 +215,8 @@ function LocationImageCarousel({ location }: LocationPageProps) {
                   className={galleryCarouselVisualClassName}
                   controls
                   loop
+                  // Carousel clips are ambient salon footage: they play silently.
+                  muted
                   playsInline
                   preload="metadata"
                 >
@@ -227,6 +245,49 @@ function LocationImageCarousel({ location }: LocationPageProps) {
           </Button>
         </div>
       </div>
+    </section>
+  );
+}
+
+/**
+ * Zaandam hosts two independent businesses at one address. Each page points at
+ * the other so a visitor who landed on the wrong one is one click away.
+ */
+function SameAddressNotice({ location }: LocationPageProps) {
+  const sibling = siblingLocation(location);
+  if (!sibling) return null;
+
+  return (
+    <section className="mx-auto w-full min-w-0 max-w-5xl">
+      <Link
+        className={cn(
+          "motion-enter group flex flex-col gap-1 rounded-xl border border-navy/15 bg-white/45 px-5 py-4 sm:px-6 sm:py-5",
+          "transition-[background-color,border-color] duration-200 hover:border-navy/35 hover:bg-white/70",
+          "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-navy/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f8f3e8]",
+        )}
+        to={`/${sibling.slug}`}
+      >
+        <span className="text-xs font-semibold tracking-[0.16em] text-navy/55 uppercase">
+          Ook op dit adres
+        </span>
+        <span className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+          <span className="font-display text-lg tracking-[0.06em] text-navy uppercase sm:text-xl">
+            {sibling.name}
+          </span>
+          {sibling.tagline ? (
+            <span className="text-sm text-foreground/70">
+              {"—"} {sibling.tagline}
+            </span>
+          ) : null}
+        </span>
+        <span className="mt-1 inline-flex items-center gap-1.5 text-sm font-medium text-navy underline decoration-navy/25 underline-offset-4 transition-colors group-hover:decoration-navy/60">
+          Bekijk behandelingen en prijzen
+          <ArrowUpRight
+            aria-hidden
+            className="size-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          />
+        </span>
+      </Link>
     </section>
   );
 }
@@ -294,6 +355,11 @@ export function LocationPage({ location }: LocationPageProps) {
               <h1 className="font-display text-3xl tracking-[0.08em] text-white uppercase sm:text-4xl lg:text-5xl">
                 <LocationHeroTitle name={location.name} />
               </h1>
+              {location.tagline ? (
+                <p className="mt-2 text-sm font-medium tracking-[0.14em] text-amber-200/90 uppercase">
+                  {location.tagline}
+                </p>
+              ) : null}
               <p className="mt-2 max-w-md text-sm leading-6 text-stone-100 sm:text-base">
                 {location.address}
               </p>
@@ -311,6 +377,8 @@ export function LocationPage({ location }: LocationPageProps) {
           </div>
         </div>
       </section>
+
+      <SameAddressNotice location={location} />
 
       <LocationPriceBlocks location={location} />
 

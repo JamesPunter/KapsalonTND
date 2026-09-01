@@ -3,7 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { HomePage } from "@/components/home-page";
 import { LocationPage } from "@/components/location-page";
 import { SiteShell } from "@/components/site-shell";
-import { locationsBySlug } from "@/data/site-content";
+import { locations } from "@/data/site-content";
 
 export function App() {
   return (
@@ -11,26 +11,13 @@ export function App() {
       <Routes>
         <Route element={<SiteShell />}>
           <Route index element={<HomePage />} />
-          <Route
-            path="amsterdam-oost"
-            element={
-              <LocationPage location={locationsBySlug["amsterdam-oost"]} />
-            }
-          />
-          <Route
-            path="amsterdam-west"
-            element={
-              <LocationPage location={locationsBySlug["amsterdam-west"]} />
-            }
-          />
-          <Route
-            path="haarlem"
-            element={<LocationPage location={locationsBySlug.haarlem} />}
-          />
-          <Route
-            path="zaandam"
-            element={<LocationPage location={locationsBySlug.zaandam} />}
-          />
+          {locations.map((location) => (
+            <Route
+              key={location.slug}
+              path={location.slug}
+              element={<LocationPage location={location} />}
+            />
+          ))}
           <Route
             path="amsterdam"
             element={<Navigate replace to="/amsterdam-oost" />}

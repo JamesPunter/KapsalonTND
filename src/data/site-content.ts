@@ -18,28 +18,32 @@ type RawGalleryItem = { src: string; alt: string; objectPosition?: string };
 
 type RawLocation = {
   name: string;
+  /** Shorter label for the site navigation; falls back to `name`. */
+  navLabel?: string;
+  /** One-line descriptor shown under the title in the hero. */
+  tagline?: string;
   address: string;
+  /** Slug of the other business at this same address, if any. */
+  sameAddressAs?: LocationSlug;
+  /** Own Google Maps listing; falls back to an address search. */
+  mapsLink?: string;
   phone: string;
   whatsapp: string;
   booking?: string;
   heroImage: string;
   gallery: RawGalleryItem[];
   carousel: RawCarouselItem[];
+  /** A location may offer `dames`, `heren`, or both. */
   prices: {
-    dames: RawPriceSection[];
-    heren: RawPriceSection[];
+    dames?: RawPriceSection[];
+    heren?: RawPriceSection[];
   };
 };
 
 type RawContent = {
   site: { instagram: string };
   home: { gallery: RawGalleryItem[] };
-  locations: {
-    "amsterdam-oost": RawLocation;
-    "amsterdam-west": RawLocation;
-    haarlem: RawLocation;
-    zaandam: RawLocation;
-  };
+  locations: Record<LocationSlug, RawLocation>;
 };
 
 // ---------------------------------------------------------------------------
@@ -57,20 +61,32 @@ export type PriceSection = {
   items: PriceItem[];
 };
 
+/** Omitted entirely when a location does not offer that side of the business. */
 export type LocationPricesByGender = {
-  dames: PriceSection[];
-  heren: PriceSection[];
+  dames?: PriceSection[];
+  heren?: PriceSection[];
 };
 
 export type LocationCarouselMedia =
   | { kind: "image"; src: string; alt: string; objectPosition?: string }
   | { kind: "video"; src: string; description: string };
 
+export type LocationSlug =
+  | "amsterdam-oost"
+  | "amsterdam-west"
+  | "haarlem"
+  | "zaandam"
+  | "zaandam-nagels";
+
 export type LocationData = {
-  slug: "amsterdam-oost" | "amsterdam-west" | "haarlem" | "zaandam";
+  slug: LocationSlug;
   name: string;
+  navLabel: string;
+  tagline?: string;
   headline: string;
   address: string;
+  /** The other business sharing this address, if any. */
+  sameAddressAs?: LocationSlug;
   phoneDisplay: string;
   phoneHref: string;
   whatsappHref: string;
@@ -115,21 +131,23 @@ function mapCarousel(items: RawCarouselItem[]): LocationCarouselMedia[] {
   });
 }
 
-function mapLocation(
-  slug: LocationData["slug"],
-  raw: RawLocation
-): LocationData {
+function mapLocation(slug: LocationSlug, raw: RawLocation): LocationData {
   const encodedAddress = encodeURIComponent(raw.address);
   return {
     slug,
     name: raw.name,
+    navLabel: raw.navLabel ?? raw.name,
+    ...(raw.tagline ? { tagline: raw.tagline } : {}),
     headline: raw.address,
     address: raw.address,
+    ...(raw.sameAddressAs ? { sameAddressAs: raw.sameAddressAs } : {}),
     phoneDisplay: raw.phone,
     phoneHref: `tel:+${raw.whatsapp}`,
     whatsappHref: `https://wa.me/${raw.whatsapp}`,
     ...(raw.booking ? { bookingHref: raw.booking } : {}),
-    mapHref: `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`,
+    mapHref:
+      raw.mapsLink ??
+      `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`,
     heroImage: resolveImageSrc(raw.heroImage),
     gallery: raw.gallery.map((g) => ({
       src: resolveImageSrc(g.src),
@@ -137,8 +155,8 @@ function mapLocation(
     })),
     carouselMedia: mapCarousel(raw.carousel),
     pricesByGender: {
-      dames: raw.prices.dames,
-      heren: raw.prices.heren,
+      ...(raw.prices.dames ? { dames: raw.prices.dames } : {}),
+      ...(raw.prices.heren ? { heren: raw.prices.heren } : {}),
     },
   };
 }
@@ -163,27 +181,36 @@ export const homeHeroImageFreepikAttribution = {
   linkText: "Home hero image on Freepik",
 } as const;
 
+/** Order shown in the header, footer and on the home page. */
+const locationOrder = [
+  "amsterdam-oost",
+  "amsterdam-west",
+  "haarlem",
+  "zaandam",
+  "zaandam-nagels",
+] as const satisfies readonly LocationSlug[];
+
+export const locations: LocationData[] = locationOrder.map((slug) =>
+  mapLocation(slug, content.locations[slug])
+);
+
+export const locationsBySlug = Object.fromEntries(
+  locations.map((loc) => [loc.slug, loc])
+) as Record<LocationSlug, LocationData>;
+
 export const navigationItems = [
   { href: "/", label: "Home" },
-  { href: "/amsterdam-oost", label: "Amsterdam - Oost" },
-  { href: "/amsterdam-west", label: "Amsterdam - West" },
-  { href: "/haarlem", label: "Haarlem" },
-  { href: "/zaandam", label: "Zaandam" },
+  ...locations.map((loc) => ({ href: `/${loc.slug}`, label: loc.navLabel })),
 ];
 
-export const locations: LocationData[] = [
-  mapLocation("amsterdam-oost", content.locations["amsterdam-oost"]),
-  mapLocation("amsterdam-west", content.locations["amsterdam-west"]),
-  mapLocation("haarlem", content.locations.haarlem),
-  mapLocation("zaandam", content.locations.zaandam),
-];
-
-export const locationsBySlug: Record<LocationData["slug"], LocationData> = {
-  "amsterdam-oost": locations[0]!,
-  "amsterdam-west": locations[1]!,
-  haarlem: locations[2]!,
-  zaandam: locations[3]!,
-};
+/** The other business at the same address, resolved in both directions. */
+export function siblingLocation(
+  location: LocationData
+): LocationData | undefined {
+  return location.sameAddressAs
+    ? locationsBySlug[location.sameAddressAs]
+    : locations.find((other) => other.sameAddressAs === location.slug);
+}
 
 export const footerSocialLinks = [
   {

@@ -5,7 +5,6 @@ import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import {
   homeHeroImageFreepikAttribution,
   locations,
-  locationsBySlug,
   navigationItems,
   siteInstagramUrl,
 } from "@/data/site-content";
@@ -27,10 +26,25 @@ const mobileSheetNavItems = [
   { href: "/amsterdam-oost", label: "Amsterdam - Oost" },
   { href: "/haarlem", label: "Haarlem" },
   { href: "/zaandam", label: "Zaandam" },
+  { href: "/zaandam-nagels", label: "TND Nagels Zaandam" },
 ] as const;
 
 const linkBaseClasses =
-  "relative rounded-md px-3 py-1.5 text-sm font-normal tracking-wide transition-colors";
+  "relative rounded-md px-2.5 py-1.5 text-sm font-normal tracking-wide transition-colors";
+
+/**
+ * One contact block per business address: TND Nagels Zaandam shares its address
+ * and phone number with the Zaandam barbershop, so it is not repeated here.
+ */
+const footerContactLocations = locations.filter(
+  (loc, index) =>
+    !locations.some(
+      (earlier, earlierIndex) =>
+        earlierIndex < index &&
+        earlier.address === loc.address &&
+        earlier.phoneDisplay === loc.phoneDisplay,
+    ),
+);
 
 export function SiteShell() {
   const location = useLocation();
@@ -97,14 +111,14 @@ function SiteHeader({ isHomePage, isVisible }: SiteHeaderProps) {
           ? "translate-y-0 border-white/10 bg-navy text-stone-100 opacity-100 shadow-[0_1px_0_rgba(255,255,255,0.06)_inset,0_8px_24px_rgb(0_8_15/0.35)] backdrop-blur-md"
           : cn(
               "pointer-events-none -translate-y-6 border-transparent bg-transparent text-stone-100 opacity-0 backdrop-blur-none",
-              "max-md:translate-y-0 max-md:pointer-events-auto max-md:border-white/10 max-md:bg-navy max-md:opacity-100 max-md:shadow-[0_1px_0_rgba(255,255,255,0.06)_inset,0_8px_24px_rgb(0_8_15/0.35)] max-md:backdrop-blur-md",
+              "max-lg:translate-y-0 max-lg:pointer-events-auto max-lg:border-white/10 max-lg:bg-navy max-lg:opacity-100 max-lg:shadow-[0_1px_0_rgba(255,255,255,0.06)_inset,0_8px_24px_rgb(0_8_15/0.35)] max-lg:backdrop-blur-md",
             ),
       )}
     >
       <div className="mx-auto flex max-w-7xl min-w-0 items-center justify-between gap-2 px-4 py-3 sm:gap-4 sm:px-6 lg:px-8">
         <BrandLockup />
 
-        <nav className="hidden items-center gap-1.5 md:flex">
+        <nav className="hidden items-center gap-0.5 lg:flex">
           {navigationItems.map((item) => (
             <NavLink
               key={item.href}
@@ -127,7 +141,7 @@ function SiteHeader({ isHomePage, isVisible }: SiteHeaderProps) {
           <SheetTrigger
             className={cn(
               buttonVariants({ variant: "ghost", size: "icon-lg" }),
-              "md:hidden rounded-md border border-white/20 text-stone-200 hover:bg-white/5 hover:text-white",
+              "lg:hidden rounded-md border border-white/20 text-stone-200 hover:bg-white/5 hover:text-white",
             )}
           >
             <Menu className="size-5" />
@@ -218,6 +232,7 @@ function SiteFooter() {
                   {loc.name}
                 </Link>
                 <p className="max-w-[18rem] text-sm leading-snug text-stone-500">
+                  {loc.tagline ? `${loc.tagline} — ` : ""}
                   {loc.address}
                 </p>
               </div>
@@ -230,34 +245,14 @@ function SiteFooter() {
             Contact
           </h3>
           <div className="grid gap-3 text-sm text-stone-300">
-            <div>
-              <p className="text-xs tracking-[0.14em] text-stone-500 uppercase">
-                Amsterdam - Oost
-              </p>
-              <p className="mt-1">
-                {locationsBySlug["amsterdam-oost"].phoneDisplay}
-              </p>
-            </div>
-            <div>
-              <p className="text-xs tracking-[0.14em] text-stone-500 uppercase">
-                Amsterdam - West
-              </p>
-              <p className="mt-1">
-                {locationsBySlug["amsterdam-west"].phoneDisplay}
-              </p>
-            </div>
-            <div>
-              <p className="text-xs tracking-[0.14em] text-stone-500 uppercase">
-                Haarlem
-              </p>
-              <p className="mt-1">{locationsBySlug.haarlem.phoneDisplay}</p>
-            </div>
-            <div>
-              <p className="text-xs tracking-[0.14em] text-stone-500 uppercase">
-                Zaandam
-              </p>
-              <p className="mt-1">{locationsBySlug.zaandam.phoneDisplay}</p>
-            </div>
+            {footerContactLocations.map((loc) => (
+              <div key={loc.slug}>
+                <p className="text-xs tracking-[0.14em] text-stone-500 uppercase">
+                  {loc.navLabel}
+                </p>
+                <p className="mt-1">{loc.phoneDisplay}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -329,7 +324,10 @@ function BrandLockup() {
         src={assetPath("images/brand/TNDlogoClear.png")}
         width={LOGO_CLEAR_INTRINSIC.w}
       />
-      <div className="min-w-0 flex-1 sm:flex-none">
+      {/* Hidden between lg and xl: that is the band where the six-item nav needs
+          the horizontal room. Below lg the nav collapses into the sheet, so the
+          wordmark fits again. */}
+      <div className="min-w-0 flex-1 sm:flex-none lg:hidden xl:block">
         <p className="truncate font-display text-lg leading-none tracking-[0.12em] text-stone-50 uppercase sm:text-2xl sm:tracking-[0.14em] md:text-3xl">
           Kapsalon TND
         </p>
