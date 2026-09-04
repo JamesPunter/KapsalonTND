@@ -566,9 +566,6 @@ locations:
         src: images/zaandam-nagels/nagels-roze.jpeg
         alt: Roze glanzende gelnagels bij TND Nagels Zaandam.
         objectPosition: object-[center_36%]
-      - kind: video
-        src: images/zaandam-nagels/video-4.mp4
-        description: Korte video-impressie van TND Nagels Zaandam.
       - kind: image
         src: images/zaandam-nagels/nagels-zwart.jpeg
         alt: Zwarte glanzende gelnagels, gezet bij TND Nagels Zaandam.
@@ -589,9 +586,6 @@ locations:
       - kind: video
         src: images/zaandam-nagels/video-3.mp4
         description: Video-impressie van een behandeling bij TND Nagels Zaandam.
-      - kind: video
-        src: images/zaandam-nagels/video-5.mp4
-        description: Video-impressie van TND Nagels Zaandam.
 
     # ---------------------------------------------------------
     # PRIJZEN TND NAGELS ZAANDAM
